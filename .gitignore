@@ -1,0 +1,24 @@
+# OS generated files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+
+# Temporary & extracted files
+*.docx
+docx_media/
+extracted_doc_text.txt
+*.log
+.system_generated/
+preview_*.png
+screenshot_*.png
+
+# Node & Package Manager
+node_modules/
+package-lock.json
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Vercel output
+.vercel

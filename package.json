@@ -1,0 +1,17 @@
+{
+  "name": "the-bebes-landing-page",
+  "version": "1.0.0",
+  "description": "Katalog dan Pre-Order Mandiri Pizza dan Bolen Jumbo The Bebes",
+  "scripts": {
+    "start": "npx serve ."
+  },
+  "keywords": [
+    "the-bebes",
+    "umkm",
+    "katalog",
+    "preorder",
+    "moncongloe"
+  ],
+  "author": "Aril Pratama",
+  "license": "MIT"
+}
