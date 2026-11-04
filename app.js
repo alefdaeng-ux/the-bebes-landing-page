@@ -1,90 +1,101 @@
 /**
  * THE BEBES — PIZZA & BOLEN JUMBO
- * Katalog & Pre-Order Mandiri (Minggu 11)
+ * Menu & Pre-Order Mandiri (Minggu 11)
  *
- * Aturan implementasi:
+ * Konfigurasi Utama:
  * - Bebas dari simbol emoji (zero emojis).
- * - Warna netral dan hangat, tanpa warna neon.
- * - Menggunakan icon SVG berbasis stroke.
- * - Format pesan terstruktur #ORDER-BEBES sesuai wireframe laporan.
+ * - Tanpa backend, login, database, atau localStorage.
+ * - Format pesan seragam #ORDER-BEBES.
  */
 
+// -------------------------------------------------------------
+// 1. KONSTANTA UTAMA (Nomor WhatsApp & Slot Jam COD)
+// -------------------------------------------------------------
+const WHATSAPP_NUMBER = '6285299999644';
+const COD_SLOTS = ['16.00 WITA', '17.15 WITA'];
+
+// -------------------------------------------------------------
+// 2. DATA PRODUK CONTOH (Untuk Uji Prototype)
+// -------------------------------------------------------------
+const PRODUCTS = [
+  {
+    id: 'bolen-cokelat-keju',
+    name: 'Bolen Cokelat Keju Jumbo',
+    category: 'Bolen Jumbo Spesial',
+    price: 20000,
+    desc: 'Isi pisang raja pilihan, lelehan cokelat manis, dan keju cheddar gurih berukuran jumbo.',
+    image: 'assets/bolen_crop.jpg'
+  },
+  {
+    id: 'bolen-original',
+    name: 'Bolen Pisang Cokelat / Keju',
+    category: 'Bolen Jumbo Original',
+    price: 16000,
+    desc: 'Varian original ukuran jumbo dengan pilihan isian pisang cokelat atau keju manis.',
+    image: 'assets/bolen_tiktok.jpg'
+  },
+  {
+    id: 'pizza-homemade',
+    name: 'Pizza Homemade Spesial',
+    category: 'Pizza Fresh Panggang',
+    price: 30000,
+    desc: 'Base pizza fresh harian, racikan saus spesial homemade, topping sosis sapi dan mozzarella gurih.',
+    image: 'assets/pizza_spesial.jpg'
+  }
+];
+
+// -------------------------------------------------------------
+// 3. STATE APLIKASI
+// -------------------------------------------------------------
+const state = {
+  cart: {
+    'bolen-cokelat-keju': 0,
+    'bolen-original': 0,
+    'pizza-homemade': 0
+  },
+  customerName: '',
+  serviceMethod: 'pickup', // 'pickup' | 'cod'
+  codAddress: '',
+  codSlot: COD_SLOTS[0] || '16.00 WITA',
+  orderNotes: '',
+  paymentMethod: 'cash',   // 'cash' | 'qris'
+  cashOption: 'Uang pas',  // 'Uang pas' | 'Rp20.000' | 'Rp50.000' | 'Rp100.000' | 'Lainnya'
+  customCash: ''
+};
+
+// -------------------------------------------------------------
+// 4. FORMATTER RUPIAH
+// -------------------------------------------------------------
+function formatRupiah(number) {
+  return 'Rp' + Number(number).toLocaleString('id-ID');
+}
+
+// -------------------------------------------------------------
+// 5. INISIALISASI SETELAH DOM SIAP
+// -------------------------------------------------------------
 document.addEventListener('DOMContentLoaded', () => {
 
-  // -------------------------------------------------------------
-  // 1. DATA PRODUK (Sesuai Dokumen & Wireframe Gambar 1)
-  // -------------------------------------------------------------
-  const PRODUCTS = [
-    {
-      id: 'bolen-cokelat-keju',
-      name: 'Bolen Cokelat Keju Jumbo',
-      category: 'Bolen Jumbo Spesial',
-      price: 20000,
-      desc: 'Isi pisang raja pilihan, lelehan cokelat manis, dan keju cheddar gurih berukuran jumbo.',
-      image: 'assets/bolen_crop.jpg'
-    },
-    {
-      id: 'bolen-original',
-      name: 'Bolen Pisang Cokelat / Keju',
-      category: 'Bolen Jumbo Original',
-      price: 16000,
-      desc: 'Varian original ukuran jumbo dengan pilihan isian pisang cokelat atau keju manis.',
-      image: 'assets/bolen_tiktok.jpg'
-    },
-    {
-      id: 'pizza-homemade',
-      name: 'Pizza Homemade Spesial',
-      category: 'Pizza Fresh Panggang',
-      price: 30000,
-      desc: 'Base pizza fresh harian, racikan saus spesial homemade, topping sosis sapi dan mozzarella gurih.',
-      image: 'assets/pizza_spesial.jpg'
-    }
-  ];
-
-  const STORE_CONFIG = {
-    whatsappNumber: '6285299999644', // 0852-9999-9644
-    storeName: 'Pizza & Bolen Jumbo The Bebes',
-    location: 'Jl. Poros Moncongloe, Maros'
-  };
-
-  // -------------------------------------------------------------
-  // 2. STATE APLIKASI
-  // -------------------------------------------------------------
-  const state = {
-    cart: {
-      'bolen-cokelat-keju': 0,
-      'bolen-original': 0,
-      'pizza-homemade': 0
-    },
-    customerName: '',
-    serviceMethod: 'pickup', // 'pickup' | 'cod'
-    codSlot: '16.00 WITA',   // '16.00 WITA' | '17.00 WITA'
-    orderNotes: '',
-    paymentMethod: 'cash',   // 'cash' | 'qris'
-    cashAmount: 0,
-    isExactCash: false
-  };
-
-  // -------------------------------------------------------------
-  // 3. ELEMEN DOM
-  // -------------------------------------------------------------
+  // Referensi Elemen DOM
   const productGrid = document.getElementById('productGrid');
+  const inquiryLink = document.getElementById('inquiryLink');
+
   const customerNameInput = document.getElementById('customerName');
   const serviceMethodRadios = document.querySelectorAll('input[name="serviceMethod"]');
-  const codSlotContainer = document.getElementById('codSlotContainer');
-  const codSlotRadios = document.querySelectorAll('input[name="codSlot"]');
+  const codAddressGroup = document.getElementById('codAddressGroup');
+  const codAddressInput = document.getElementById('codAddress');
+  const codSlotGroup = document.getElementById('codSlotGroup');
+  const codSlotsGrid = document.getElementById('codSlotsGrid');
   const orderNotesInput = document.getElementById('orderNotes');
 
   const orderItemsList = document.getElementById('orderItemsList');
   const totalAmountDisplay = document.getElementById('totalAmountDisplay');
+
   const paymentMethodRadios = document.querySelectorAll('input[name="paymentMethod"]');
-  const cashCalcBlock = document.getElementById('cashCalcBlock');
-  const qrisInfoBlock = document.getElementById('qrisInfoBlock');
-  const cashAmountInput = document.getElementById('cashAmountInput');
-  const quickCashChips = document.querySelectorAll('.cash-chip');
-  const changeResultBox = document.getElementById('changeResultBox');
-  const changeAmountDisplay = document.getElementById('changeAmountDisplay');
-  const changeDescText = document.getElementById('changeDescText');
+  const cashDetailsBlock = document.getElementById('cashDetailsBlock');
+  const qrisDetailsBlock = document.getElementById('qrisDetailsBlock');
+  const cashOptionRadios = document.querySelectorAll('input[name="cashOption"]');
+  const customCashGroup = document.getElementById('customCashGroup');
+  const customCashInput = document.getElementById('customCashInput');
 
   const messagePreview = document.getElementById('messagePreview');
   const btnSendWhatsapp = document.getElementById('btnSendWhatsapp');
@@ -95,21 +106,32 @@ document.addEventListener('DOMContentLoaded', () => {
   const stickyTotalDisplay = document.getElementById('stickyTotalDisplay');
   const btnStickyCheckout = document.getElementById('btnStickyCheckout');
 
-  const btnToggleHistory = document.getElementById('btnToggleHistory');
-  const historyPanel = document.getElementById('historyPanel');
-  const historyListContainer = document.getElementById('historyListContainer');
-  const btnClearHistory = document.getElementById('btnClearHistory');
-
-  // -------------------------------------------------------------
-  // 4. FORMATTER RUPIAH
-  // -------------------------------------------------------------
-  function formatRupiah(number) {
-    return 'Rp ' + Number(number).toLocaleString('id-ID');
+  // Set URL Tautan Tanya Ketersediaan WhatsApp
+  if (inquiryLink) {
+    const inquiryText = encodeURIComponent('Halo, apakah menu hari ini tersedia?');
+    inquiryLink.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${inquiryText}`;
   }
 
-  // -------------------------------------------------------------
-  // 5. RENDER KATALOG MENU
-  // -------------------------------------------------------------
+  // Render Slot COD Dinamis dari Konstanta
+  function renderCodSlots() {
+    codSlotsGrid.innerHTML = COD_SLOTS.map((slot, idx) => `
+      <label class="slot-chip" for="slot-${idx}">
+        <input type="radio" name="codSlot" id="slot-${idx}" value="${slot}" ${idx === 0 ? 'checked' : ''}>
+        <div class="slot-chip-content">
+          <span class="slot-time">${slot}</span>
+        </div>
+      </label>
+    `).join('');
+
+    codSlotsGrid.querySelectorAll('input[name="codSlot"]').forEach(radio => {
+      radio.addEventListener('change', (e) => {
+        state.codSlot = e.target.value;
+        updateUI();
+      });
+    });
+  }
+
+  // Render Produk
   function renderProducts() {
     productGrid.innerHTML = PRODUCTS.map(prod => {
       const qty = state.cart[prod.id] || 0;
@@ -160,7 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
       `;
     }).join('');
 
-    // Attach event listeners to steppers
+    // Listener Counter
     productGrid.querySelectorAll('.btn-increase').forEach(btn => {
       btn.addEventListener('click', () => {
         const id = btn.getAttribute('data-id');
@@ -180,9 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // -------------------------------------------------------------
-  // 6. PERHITUNGAN TOTAL DAN KEMBALIAN
-  // -------------------------------------------------------------
+  // Hitung Total Belanja
   function calculateTotals() {
     let totalItems = 0;
     let totalPrice = 0;
@@ -207,13 +227,56 @@ document.addEventListener('DOMContentLoaded', () => {
     return { totalItems, totalPrice, items };
   }
 
-  // -------------------------------------------------------------
-  // 7. SINKRONISASI TAMPILAN (UPDATE UI)
-  // -------------------------------------------------------------
+  // Generator Format Pesan WhatsApp Sesuai Instruksi
+  function buildOrderText(totalPrice, items) {
+    const lines = [];
+    lines.push('#ORDER-BEBES');
+    lines.push(`Nama: ${state.customerName.trim() || '...'}`);
+
+    if (state.serviceMethod === 'cod') {
+      lines.push('Layanan: Antar COD FM2');
+      lines.push(`Alamat: ${state.codAddress.trim() || '...'}`);
+      lines.push(`Jam: ${state.codSlot}`);
+    } else {
+      lines.push('Layanan: Ambil di gerai');
+    }
+
+    lines.push('Pesanan:');
+    if (items.length > 0) {
+      items.forEach(it => {
+        lines.push(`- ${it.name} x${it.qty} = ${formatRupiah(it.subtotal)}`);
+      });
+    } else {
+      lines.push('(Belum ada menu dipilih)');
+    }
+
+    lines.push(`Total: ${formatRupiah(totalPrice)}`);
+
+    if (state.paymentMethod === 'cash') {
+      lines.push('Bayar: Tunai');
+      let pecahanText = state.cashOption;
+      if (state.cashOption === 'Lainnya') {
+        pecahanText = state.customCash.trim() ? `${formatRupiah(state.customCash)}` : 'Lainnya (belum diisi)';
+      }
+      lines.push(`Pecahan dibawa: ${pecahanText}`);
+    } else {
+      lines.push('Bayar: QRIS statis');
+    }
+
+    if (state.orderNotes.trim()) {
+      lines.push(`Catatan: ${state.orderNotes.trim()}`);
+    }
+
+    lines.push('Mohon konfirmasi stok & jam. Terima kasih.');
+
+    return lines.join('\n');
+  }
+
+  // Update UI & Validasi Tombol
   function updateUI() {
     const { totalItems, totalPrice, items } = calculateTotals();
 
-    // 1. Update product card active classes & counter values
+    // 1. Update Card Kuantitas
     PRODUCTS.forEach(p => {
       const qty = state.cart[p.id] || 0;
       const card = productGrid.querySelector(`[data-product-id="${p.id}"]`);
@@ -231,7 +294,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // 2. Render Order Items Breakdown
+    // 2. Render Rincian Belanja
     if (items.length === 0) {
       orderItemsList.innerHTML = '<p class="empty-cart-text">Belum ada menu yang dipilih. Silakan tekan tombol (+) pada katalog menu di atas.</p>';
     } else {
@@ -247,7 +310,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     totalAmountDisplay.textContent = formatRupiah(totalPrice);
 
-    // 3. Update Sticky Bar on Mobile
+    // 3. Sticky Bottom Bar pada Layar HP
     if (totalItems > 0) {
       stickyMobileBar.classList.add('is-visible');
       stickyQtyDisplay.textContent = `${totalItems} Menu Dipilih`;
@@ -256,142 +319,25 @@ document.addEventListener('DOMContentLoaded', () => {
       stickyMobileBar.classList.remove('is-visible');
     }
 
-    // 4. Update Cash Kembalian Calculation
-    updateChangeCalculation(totalPrice);
-
-    // 5. Update WhatsApp Message Preview & Button State
-    updateMessagePreview(totalPrice, items);
-  }
-
-  // -------------------------------------------------------------
-  // 8. LOGIKA KALKULATOR UANG KEMBALIAN
-  // -------------------------------------------------------------
-  function updateChangeCalculation(totalPrice) {
-    if (state.paymentMethod !== 'cash') {
-      cashCalcBlock.classList.add('is-hidden');
-      qrisInfoBlock.classList.remove('is-hidden');
-      return;
-    }
-
-    cashCalcBlock.classList.remove('is-hidden');
-    qrisInfoBlock.classList.add('is-hidden');
-
-    if (totalPrice === 0) {
-      changeResultBox.className = 'change-result-box neutral-state';
-      changeAmountDisplay.textContent = 'Pilih menu terlebih dahulu';
-      changeDescText.textContent = 'Nominal kembalian akan otomatis dihitung setelah Anda memilih menu.';
-      return;
-    }
-
-    let cash = state.cashAmount;
-
-    if (state.isExactCash) {
-      cash = totalPrice;
-      cashAmountInput.value = totalPrice;
-    }
-
-    if (!cash || cash <= 0) {
-      changeResultBox.className = 'change-result-box neutral-state';
-      changeAmountDisplay.textContent = 'Masukkan pecahan uang';
-      changeDescText.textContent = 'Pilih tombol pecahan cepat atau ketik nominal uang tunai yang dibawa pembeli.';
-      return;
-    }
-
-    const difference = cash - totalPrice;
-
-    if (difference > 0) {
-      // Uang lebih -> Ada kembalian
-      changeResultBox.className = 'change-result-box valid-change';
-      changeAmountDisplay.textContent = `Kembalian: ${formatRupiah(difference)}`;
-      changeDescText.textContent = `Penjual / kasir di gerai harus menyiapkan uang kembalian sebesar ${formatRupiah(difference)}.`;
-    } else if (difference === 0) {
-      // Uang pas
-      changeResultBox.className = 'change-result-box valid-change';
-      changeAmountDisplay.textContent = 'Uang Pas (Tanpa Kembalian)';
-      changeDescText.textContent = 'Pembeli membayar dengan uang pas. Penjual tidak perlu mencari uang kembalian.';
-    } else {
-      // Uang kurang
-      changeResultBox.className = 'change-result-box insufficient';
-      changeAmountDisplay.textContent = `Kurang ${formatRupiah(Math.abs(difference))}`;
-      changeDescText.textContent = `Nominal uang tunai yang dimasukkan masih kurang ${formatRupiah(Math.abs(difference))} dari total belanja.`;
-    }
-  }
-
-  // -------------------------------------------------------------
-  // 9. GENERATOR FORMAT PESAN WHATSAPP (#ORDER-BEBES)
-  // -------------------------------------------------------------
-  function buildOrderText(totalPrice, items) {
-    const nameStr = state.customerName.trim() || '(Nama belum diisi)';
-
-    const itemsText = items.length > 0
-      ? items.map(it => `• ${it.qty}x ${it.name} (${formatRupiah(it.subtotal)})`).join('\n')
-      : '(Belum ada menu dipilih)';
-
-    let serviceText = 'Ambil Langsung di Gerai';
-    if (state.serviceMethod === 'cod') {
-      serviceText = `Antar COD FM2 (Slot ${state.codSlot})`;
-    }
-
-    let paymentText = 'Tunai (Cash)';
-    let changeText = 'Tidak butuh kembalian';
-
-    if (state.paymentMethod === 'qris') {
-      paymentText = 'QRIS Statis (Scan di Gerai / Transfer)';
-      changeText = '-';
-    } else {
-      const cash = state.isExactCash ? totalPrice : state.cashAmount;
-      if (cash > 0) {
-        paymentText = `Tunai (Uang Dibawa: ${formatRupiah(cash)})`;
-        const diff = cash - totalPrice;
-        if (diff > 0) {
-          changeText = `${formatRupiah(diff)}`;
-        } else if (diff === 0) {
-          changeText = 'Rp 0 (Uang Pas)';
-        } else {
-          changeText = `Kurang ${formatRupiah(Math.abs(diff))}`;
-        }
-      } else {
-        paymentText = 'Tunai (Nominal uang belum ditentukan)';
-        changeText = 'Belum dihitung';
-      }
-    }
-
-    let message = `#ORDER-BEBES (PRE-ORDER WEB)
-----------------------------------------
-Nama: ${nameStr}
-Pesanan:
-${itemsText}
-----------------------------------------
-Total Bayar: ${formatRupiah(totalPrice)}
-Layanan: ${serviceText}
-Pembayaran: ${paymentText}`;
-
-    if (state.paymentMethod === 'cash') {
-      message += `\nSiapkan Kembalian: ${changeText}`;
-    }
-
-    if (state.orderNotes.trim()) {
-      message += `\nCatatan: ${state.orderNotes.trim()}`;
-    }
-
-    return message;
-  }
-
-  function updateMessagePreview(totalPrice, items) {
+    // 4. Update Format Pesan Pratinjau
     const message = buildOrderText(totalPrice, items);
     messagePreview.textContent = message;
 
-    // Validasi form untuk aktivasi tombol WhatsApp
+    // 5. Validasi Tombol WhatsApp
     const hasItems = items.length > 0;
     const hasName = state.customerName.trim().length > 0;
 
-    let isCashValid = true;
-    if (state.paymentMethod === 'cash') {
-      const cash = state.isExactCash ? totalPrice : state.cashAmount;
-      isCashValid = cash >= totalPrice && cash > 0;
+    let isCodValid = true;
+    if (state.serviceMethod === 'cod') {
+      isCodValid = state.codAddress.trim().length > 0 && state.codSlot.length > 0;
     }
 
-    const isValid = hasItems && hasName && isCashValid;
+    let isCashValid = true;
+    if (state.paymentMethod === 'cash' && state.cashOption === 'Lainnya') {
+      isCashValid = state.customCash.trim().length > 0 && Number(state.customCash) > 0;
+    }
+
+    const isValid = hasItems && hasName && isCodValid && isCashValid;
 
     btnSendWhatsapp.disabled = !isValid;
 
@@ -399,15 +345,17 @@ Pembayaran: ${paymentText}`;
       btnWhatsappText.textContent = 'Pilih Minimal 1 Menu Terlebih Dahulu';
     } else if (!hasName) {
       btnWhatsappText.textContent = 'Isi Nama Pemesan di Formulir';
-    } else if (!isCashValid) {
-      btnWhatsappText.textContent = 'Tentukan Pecahan Uang Tunai yang Cukup';
+    } else if (state.serviceMethod === 'cod' && !state.codAddress.trim()) {
+      btnWhatsappText.textContent = 'Isi Alamat (Blok/No. Rumah) untuk COD';
+    } else if (state.paymentMethod === 'cash' && state.cashOption === 'Lainnya' && !isCashValid) {
+      btnWhatsappText.textContent = 'Isi Nominal Pecahan Uang';
     } else {
-      btnWhatsappText.textContent = 'Pesan Sekarang via WhatsApp (1-Klik)';
+      btnWhatsappText.textContent = 'Pesan Sekarang via WhatsApp';
     }
   }
 
   // -------------------------------------------------------------
-  // 10. EVENT HANDLERS: FORMULIR & INTERAKSI
+  // 6. EVENT HANDLERS
   // -------------------------------------------------------------
 
   // Input Nama
@@ -416,176 +364,93 @@ Pembayaran: ${paymentText}`;
     updateUI();
   });
 
-  // Catatan Tambahan
+  // Metode Layanan
+  serviceMethodRadios.forEach(radio => {
+    radio.addEventListener('change', (e) => {
+      state.serviceMethod = e.target.value;
+      if (state.serviceMethod === 'cod') {
+        codAddressGroup.classList.remove('is-hidden');
+        codSlotGroup.classList.remove('is-hidden');
+      } else {
+        codAddressGroup.classList.add('is-hidden');
+        codSlotGroup.classList.add('is-hidden');
+      }
+      updateUI();
+    });
+  });
+
+  // Input Alamat COD
+  codAddressInput.addEventListener('input', (e) => {
+    state.codAddress = e.target.value;
+    updateUI();
+  });
+
+  // Catatan
   orderNotesInput.addEventListener('input', (e) => {
     state.orderNotes = e.target.value;
     updateUI();
   });
 
-  // Metode Layanan (Ambil di Gerai vs Antar COD FM2)
-  serviceMethodRadios.forEach(radio => {
-    radio.addEventListener('change', (e) => {
-      state.serviceMethod = e.target.value;
-      if (state.serviceMethod === 'cod') {
-        codSlotContainer.classList.remove('is-hidden');
-      } else {
-        codSlotContainer.classList.add('is-hidden');
-      }
-      updateUI();
-    });
-  });
-
-  // Slot Jam COD
-  codSlotRadios.forEach(radio => {
-    radio.addEventListener('change', (e) => {
-      state.codSlot = e.target.value;
-      updateUI();
-    });
-  });
-
-  // Pilihan Metode Pembayaran (Tunai vs QRIS)
+  // Pilihan Pembayaran (Tunai vs QRIS statis)
   paymentMethodRadios.forEach(radio => {
     radio.addEventListener('change', (e) => {
       state.paymentMethod = e.target.value;
-      updateUI();
-    });
-  });
-
-  // Quick Cash Chips
-  quickCashChips.forEach(chip => {
-    chip.addEventListener('click', () => {
-      quickCashChips.forEach(c => c.classList.remove('is-active'));
-      chip.classList.add('is-active');
-
-      const cashVal = chip.getAttribute('data-cash');
-      const { totalPrice } = calculateTotals();
-
-      if (cashVal === 'exact') {
-        state.isExactCash = true;
-        state.cashAmount = totalPrice;
-        cashAmountInput.value = totalPrice > 0 ? totalPrice : '';
+      if (state.paymentMethod === 'cash') {
+        cashDetailsBlock.classList.remove('is-hidden');
+        qrisDetailsBlock.classList.add('is-hidden');
       } else {
-        state.isExactCash = false;
-        const parsed = parseInt(cashVal, 10);
-        state.cashAmount = parsed;
-        cashAmountInput.value = parsed;
+        cashDetailsBlock.classList.add('is-hidden');
+        qrisDetailsBlock.classList.remove('is-hidden');
       }
-
       updateUI();
     });
   });
 
-  // Manual Cash Input
-  cashAmountInput.addEventListener('input', (e) => {
-    quickCashChips.forEach(c => c.classList.remove('is-active'));
-    state.isExactCash = false;
-    const val = parseInt(e.target.value, 10);
-    state.cashAmount = isNaN(val) ? 0 : val;
+  // Pilihan Pecahan Uang Tunai
+  cashOptionRadios.forEach(radio => {
+    radio.addEventListener('change', (e) => {
+      state.cashOption = e.target.value;
+      if (state.cashOption === 'Lainnya') {
+        customCashGroup.classList.remove('is-hidden');
+        customCashInput.focus();
+      } else {
+        customCashGroup.classList.add('is-hidden');
+      }
+      updateUI();
+    });
+  });
+
+  // Input Manual Pecahan Lainnya
+  customCashInput.addEventListener('input', (e) => {
+    state.customCash = e.target.value;
     updateUI();
   });
 
-  // Sticky Bar Button (scroll to form)
+  // Tombol Sticky Mobile
   btnStickyCheckout.addEventListener('click', () => {
-    const targetSection = document.getElementById('layanan-section');
-    if (targetSection) {
-      targetSection.scrollIntoView({ behavior: 'smooth' });
+    const formSection = document.getElementById('layanan-section');
+    if (formSection) {
+      formSection.scrollIntoView({ behavior: 'smooth' });
       customerNameInput.focus();
     }
   });
 
-  // -------------------------------------------------------------
-  // 11. AKSI FINAL: KIRIM KE WHATSAPP (CLICK-TO-CHAT API)
-  // -------------------------------------------------------------
+  // Tombol Kirim WhatsApp
   btnSendWhatsapp.addEventListener('click', () => {
-    const { totalPrice, items } = calculateTotals();
-    if (items.length === 0 || !state.customerName.trim()) {
-      return;
-    }
+    const { items, totalPrice } = calculateTotals();
+    if (items.length === 0 || !state.customerName.trim()) return;
+    if (state.serviceMethod === 'cod' && !state.codAddress.trim()) return;
 
-    const orderText = buildOrderText(totalPrice, items);
-    const encodedText = encodeURIComponent(orderText);
-    const waUrl = `https://wa.me/${STORE_CONFIG.whatsappNumber}?text=${encodedText}`;
+    const message = buildOrderText(totalPrice, items);
+    const encoded = encodeURIComponent(message);
+    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encoded}`;
 
-    // Simpan pesanan ke riwayat lokal di browser
-    saveOrderToLocalHistory({
-      id: 'BEBES-' + Date.now().toString().slice(-4),
-      timestamp: new Date().toLocaleString('id-ID'),
-      customerName: state.customerName.trim(),
-      total: totalPrice,
-      service: state.serviceMethod === 'cod' ? `COD FM2 (${state.codSlot})` : 'Ambil di Gerai',
-      payment: state.paymentMethod === 'cash' ? 'Tunai' : 'QRIS',
-      itemsCount: items.reduce((acc, curr) => acc + curr.qty, 0)
-    });
-
-    // Buka aplikasi WhatsApp
-    window.open(waUrl, '_blank');
+    window.open(url, '_blank');
   });
 
-  // -------------------------------------------------------------
-  // 12. LOG PESANAN LOKAL (BANTUAN KASIR & PEMILIK)
-  // -------------------------------------------------------------
-  const STORAGE_KEY = 'the_bebes_order_logs';
-
-  function getLocalHistory() {
-    try {
-      const data = localStorage.getItem(STORAGE_KEY);
-      return data ? JSON.parse(data) : [];
-    } catch {
-      return [];
-    }
-  }
-
-  function saveOrderToLocalHistory(entry) {
-    const history = getLocalHistory();
-    history.unshift(entry);
-    if (history.length > 20) history.pop(); // simpan maksimal 20 pesanan terakhir
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
-      renderLocalHistory();
-    } catch (e) {
-      console.warn('Gagal menyimpan log lokal:', e);
-    }
-  }
-
-  function renderLocalHistory() {
-    const history = getLocalHistory();
-    if (history.length === 0) {
-      historyListContainer.innerHTML = '<p class="empty-history-text">Belum ada pesanan yang tercatat di perangkat ini.</p>';
-      return;
-    }
-
-    historyListContainer.innerHTML = history.map(item => `
-      <div class="history-entry">
-        <div class="history-entry-top">
-          <span>${item.id} — ${item.customerName}</span>
-          <span>${formatRupiah(item.total)}</span>
-        </div>
-        <div class="history-entry-details">
-          ${item.timestamp} | ${item.itemsCount} menu | ${item.service} | ${item.payment}
-        </div>
-      </div>
-    `).join('');
-  }
-
-  btnToggleHistory.addEventListener('click', () => {
-    historyPanel.classList.toggle('is-hidden');
-    if (!historyPanel.classList.contains('is-hidden')) {
-      renderLocalHistory();
-    }
-  });
-
-  btnClearHistory.addEventListener('click', () => {
-    if (confirm('Hapus seluruh riwayat pesanan lokal di perangkat ini?')) {
-      localStorage.removeItem(STORAGE_KEY);
-      renderLocalHistory();
-    }
-  });
-
-  // -------------------------------------------------------------
-  // 13. INISIALISASI
-  // -------------------------------------------------------------
+  // Eksekusi Render Awal
+  renderCodSlots();
   renderProducts();
   updateUI();
 
 });
-

@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Bebes — Katalog & Pre-Order Pizza dan Bolen Jumbo</title>
-  <meta name="description" content="Katalog menu, informasi jam panggang, dan formulir pemesanan mandiri Pizza & Bolen Jumbo The Bebes, Jl. Poros Moncongloe, Maros.">
+  <title>The Bebes — Menu &amp; Pre-Order Pizza dan Bolen Jumbo</title>
+  <meta name="description" content="Katalog menu dan pemesanan mandiri Pizza &amp; Bolen Jumbo The Bebes, Jl. Poros Moncongloe, Maros.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -20,14 +20,7 @@
           <circle cx="12" cy="12" r="10"></circle>
           <polyline points="12 6 12 12 16 14"></polyline>
         </svg>
-        <span>Buka Setiap Hari: <strong>07.00 – 18.00 WITA</strong></span>
-      </div>
-      <div class="announcement-divider"></div>
-      <div class="announcement-item">
-        <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
-        </svg>
-        <span>Jadwal Panggang Sore Hangat: <strong>15.30 &amp; 16.45 WITA</strong></span>
+        <span>Buka 07.00–18.00 WITA</span>
       </div>
     </div>
   </aside>
@@ -59,10 +52,10 @@
     </div>
   </header>
 
-  <!-- Main Content Flow -->
+  <!-- Main Content Layout -->
   <main class="container page-layout">
 
-    <!-- Notice Card: Mandiri Ordering Explanation -->
+    <!-- Notice Card: Prototype Disclaimer -->
     <section class="banner-card">
       <div class="banner-body">
         <div class="banner-icon-col">
@@ -73,44 +66,53 @@
           </svg>
         </div>
         <div class="banner-text-col">
-          <h2 class="banner-heading">Pemesanan Mandiri &amp; Cek Harga Langsung</h2>
-          <p class="banner-desc">
-            Jika penjual sedang di dapur menyiapkan panggangan atau mengantar pesanan, Anda dapat melihat daftar harga, memilih menu, dan menghitung uang kembalian secara mandiri tanpa harus menunggu di depan etalase.
+          <p class="prototype-banner-text">
+            Prototype uji Minggu 11 · tanpa login, tanpa pembayaran online. Pesanan dikirim lewat WhatsApp dan baru sah setelah dikonfirmasi pemilik.
           </p>
         </div>
       </div>
     </section>
 
-    <!-- SECTION 1: KATALOG MENU -->
+    <!-- SECTION 1: KATALOG MENU (LAYAR 1) -->
     <section id="katalog-section" class="section-block">
       <div class="section-header">
         <div>
           <span class="section-eyebrow">Layar 1 — Katalog Produk</span>
-          <h2 class="section-title">Daftar Menu &amp; Harga Resmi</h2>
+          <h2 class="section-title">Menu &amp; Harga</h2>
         </div>
-        <p class="section-subtitle">Pilih jumlah pesanan dengan tombol tambah (+) atau kurang (-).</p>
+        <p class="section-note">
+          Varian dan harga adalah contoh untuk uji prototype dan akan disesuaikan dengan daftar asli dari pemilik. Ketersediaan hari ini dikonfirmasi pemilik lewat WhatsApp.
+        </p>
+        <div class="inquiry-wrap">
+          <a href="#" id="inquiryLink" class="inquiry-link" target="_blank" rel="noopener">
+            <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+            </svg>
+            <span>Tanya ketersediaan hari ini via WhatsApp</span>
+          </a>
+        </div>
       </div>
 
       <div class="product-grid" id="productGrid">
-        <!-- Product items injected by JavaScript -->
+        <!-- Rendered dynamically by app.js -->
       </div>
     </section>
 
-    <!-- SECTION 2: FORM PRE-ORDER & LAYANAN -->
+    <!-- SECTION 2: FORMULIR PRE-ORDER & PEMBAYARAN (LAYAR 2) -->
     <section id="layanan-section" class="section-block">
       <div class="section-header">
         <div>
-          <span class="section-eyebrow">Layar 2 — Formulir Mandiri</span>
-          <h2 class="section-title">Detail Pengambilan &amp; Layanan</h2>
+          <span class="section-eyebrow">Layar 2 — Formulir Pre-Order</span>
+          <h2 class="section-title">Detail Pemesanan &amp; Pembayaran</h2>
         </div>
-        <p class="section-subtitle">Tentukan nama pemesan dan metode layanan yang Anda inginkan.</p>
+        <p class="section-subtitle">Lengkapi data pemesanan sebelum mengirim ke WhatsApp.</p>
       </div>
 
       <div class="form-card">
-        <!-- Customer Name Input -->
+        <!-- Customer Name -->
         <div class="form-group">
           <label for="customerName" class="form-label">
-            Nama Pemesan / Identitas
+            Nama Pemesan
             <span class="required-mark">*</span>
           </label>
           <div class="input-with-icon">
@@ -118,15 +120,14 @@
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
               <circle cx="12" cy="7" r="4"></circle>
             </svg>
-            <input type="text" id="customerName" class="form-input" placeholder="Contoh: Ibu Rina (Blok C Perumahan FM2)" autocomplete="name">
+            <input type="text" id="customerName" class="form-input" placeholder="Nama pemesan" autocomplete="name">
           </div>
-          <span class="input-hint">Cantumkan nama jelas dan nomor rumah/blok jika memilih pengantaran COD.</span>
         </div>
 
-        <!-- Service Method Selector -->
+        <!-- Service Method -->
         <div class="form-group">
           <label class="form-label">
-            Pilihan Metode Layanan
+            Metode Layanan
             <span class="required-mark">*</span>
           </label>
           <div class="service-option-grid">
@@ -140,8 +141,8 @@
                   </svg>
                 </div>
                 <div class="service-info">
-                  <div class="service-title">Ambil Langsung di Gerai</div>
-                  <div class="service-desc">Langsung ambil di stan Jl. Poros Moncongloe saat pesanan siap.</div>
+                  <div class="service-title">Ambil di gerai</div>
+                  <div class="service-desc">Langsung ambil di stan Jl. Poros Moncongloe.</div>
                 </div>
               </div>
             </label>
@@ -158,75 +159,59 @@
                   </svg>
                 </div>
                 <div class="service-info">
-                  <div class="service-title">Antar COD Perumahan FM2</div>
-                  <div class="service-desc">Khusus warga Perumahan Findaria Mas 2 (jadwal slot teratur).</div>
+                  <div class="service-title">Antar COD FM2</div>
+                  <div class="service-desc">Khusus warga Perumahan Findaria Mas 2.</div>
                 </div>
               </div>
             </label>
           </div>
         </div>
 
-        <!-- COD Time Slot Selection (Visible only when COD is selected) -->
-        <div id="codSlotContainer" class="form-group cod-slot-block is-hidden">
-          <label class="form-label">
-            Pilihan Slot Jam Pengantaran COD Sore
+        <!-- COD Address Field (Visible only if COD is selected) -->
+        <div id="codAddressGroup" class="form-group is-hidden">
+          <label for="codAddress" class="form-label">
+            Alamat (blok/no. rumah)
             <span class="required-mark">*</span>
           </label>
-          <div class="slot-option-grid">
-            <label class="slot-chip" for="slot16">
-              <input type="radio" name="codSlot" id="slot16" value="16.00 WITA" checked>
-              <div class="slot-chip-content">
-                <span class="slot-time">Slot 16.00 WITA</span>
-                <span class="slot-sub">Pengantaran Kloter 1</span>
-              </div>
-            </label>
-            <label class="slot-chip" for="slot17">
-              <input type="radio" name="codSlot" id="slot17" value="17.00 WITA">
-              <div class="slot-chip-content">
-                <span class="slot-time">Slot 17.00 WITA</span>
-                <span class="slot-sub">Pengantaran Kloter 2</span>
-              </div>
-            </label>
+          <div class="input-with-icon">
+            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            <input type="text" id="codAddress" class="form-input" placeholder="Contoh: Blok C No. 12">
           </div>
-          <p class="slot-explanation">
-            Catatan: Pengantaran COD dijadwalkan pada slot jam tertentu agar proses produksi dan penjagaan gerai fisik tetap berjalan lancar tanpa bolak-balik.
-          </p>
+          <span class="input-hint">Wajib diisi untuk pengantaran COD Perumahan FM2.</span>
         </div>
 
-        <!-- Optional Note Input -->
-        <div class="form-group">
-          <label for="orderNotes" class="form-label">Catatan Tambahan (Opsional)</label>
-          <input type="text" id="orderNotes" class="form-input" placeholder="Contoh: Bolen pilih varian pisang cokelat / patokan depan pos blok C">
+        <!-- COD Time Slot (Visible only if COD is selected) -->
+        <div id="codSlotGroup" class="form-group cod-slot-block is-hidden">
+          <label class="form-label">
+            Pilihan Jam Antar COD
+            <span class="required-mark">*</span>
+          </label>
+          <div class="slot-option-grid" id="codSlotsGrid">
+            <!-- Dynamically populated from COD_SLOTS constant -->
+          </div>
         </div>
-      </div>
-    </section>
 
-    <!-- SECTION 3: KALKULATOR KASIR & KEMBALIAN -->
-    <section id="kalkulator-section" class="section-block">
-      <div class="section-header">
-        <div>
-          <span class="section-eyebrow">Layar 2 Lanjutan — Kasir Otomatis</span>
-          <h2 class="section-title">Kalkulator Pembayaran &amp; Uang Kembalian</h2>
-        </div>
-        <p class="section-subtitle">Hitung total belanja dan nominal kembalian yang harus disiapkan penjual.</p>
-      </div>
-
-      <div class="calculator-card">
-        <!-- Order Items Breakdown -->
+        <!-- Order Items Summary & Total -->
         <div class="summary-breakdown">
-          <h3 class="breakdown-title">Rincian Belanja Saat Ini</h3>
+          <h3 class="breakdown-title">Rincian Belanja</h3>
           <div id="orderItemsList" class="order-items-list">
             <p class="empty-cart-text">Belum ada menu yang dipilih. Silakan tekan tombol (+) pada katalog menu di atas.</p>
           </div>
           <div class="summary-total-row">
-            <span class="total-label">Total Pembayaran:</span>
+            <span class="total-label">Total:</span>
             <span class="total-amount" id="totalAmountDisplay">Rp 0</span>
           </div>
         </div>
 
-        <!-- Payment Method Choice -->
-        <div class="payment-method-block">
-          <label class="form-label">Metode Pembayaran</label>
+        <!-- Payment Method -->
+        <div class="form-group">
+          <label class="form-label">
+            Pembayaran
+            <span class="required-mark">*</span>
+          </label>
           <div class="payment-option-grid">
             <label class="payment-radio" for="payCash">
               <input type="radio" name="paymentMethod" id="payCash" value="cash" checked>
@@ -236,7 +221,7 @@
                   <circle cx="12" cy="12" r="2"></circle>
                   <path d="M6 12h.01M18 12h.01"></path>
                 </svg>
-                <span>Tunai (Cash)</span>
+                <span>Tunai</span>
               </div>
             </label>
 
@@ -249,155 +234,116 @@
                   <rect x="3" y="14" width="7" height="7"></rect>
                   <path d="M14 14h3v3h-3zM14 20h3M20 14v3M20 20h.01"></path>
                 </svg>
-                <span>QRIS Statis</span>
+                <span>QRIS statis</span>
               </div>
             </label>
           </div>
         </div>
 
-        <!-- Cash Calculator Section (Active when Cash is selected) -->
-        <div id="cashCalcBlock" class="cash-calc-wrapper">
-          <label class="form-label" for="cashAmountInput">
-            Pecahan Uang Tunai yang Dibawa
+        <!-- Cash Details (Informational, No Calculator) -->
+        <div id="cashDetailsBlock" class="cash-details-block">
+          <label class="form-label">
+            Pecahan yang dibawa (agar kembalian bisa disiapkan)
+            <span class="required-mark">*</span>
           </label>
-
-          <!-- Quick Cash Preset Chips -->
-          <div class="quick-cash-chips" id="quickCashChips">
-            <button type="button" class="cash-chip" data-cash="exact">Uang Pas</button>
-            <button type="button" class="cash-chip" data-cash="20000">Rp 20.000</button>
-            <button type="button" class="cash-chip" data-cash="50000">Rp 50.000</button>
-            <button type="button" class="cash-chip" data-cash="100000">Rp 100.000</button>
+          <div class="cash-radio-grid">
+            <label class="cash-radio-item" for="cashExact">
+              <input type="radio" name="cashOption" id="cashExact" value="Uang pas" checked>
+              <span class="cash-radio-box">Uang pas</span>
+            </label>
+            <label class="cash-radio-item" for="cash20k">
+              <input type="radio" name="cashOption" id="cash20k" value="Rp20.000">
+              <span class="cash-radio-box">Rp20.000</span>
+            </label>
+            <label class="cash-radio-item" for="cash50k">
+              <input type="radio" name="cashOption" id="cash50k" value="Rp50.000">
+              <span class="cash-radio-box">Rp50.000</span>
+            </label>
+            <label class="cash-radio-item" for="cash100k">
+              <input type="radio" name="cashOption" id="cash100k" value="Rp100.000">
+              <span class="cash-radio-box">Rp100.000</span>
+            </label>
+            <label class="cash-radio-item" for="cashOther">
+              <input type="radio" name="cashOption" id="cashOther" value="Lainnya">
+              <span class="cash-radio-box">Lainnya</span>
+            </label>
           </div>
 
-          <!-- Custom Cash Input -->
-          <div class="input-with-prefix">
-            <span class="input-prefix">Rp</span>
-            <input type="number" id="cashAmountInput" class="form-input cash-input" placeholder="Masukkan jumlah uang tunai" min="0" step="1000">
-          </div>
-
-          <!-- Live Change Result Card -->
-          <div id="changeResultBox" class="change-result-box neutral-state">
-            <div class="change-header">
-              <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10"></circle>
-                <path d="M16 12l-4-4-4 4M12 16V8"></path>
-              </svg>
-              <span class="change-status-title">Status Uang Kembalian</span>
+          <!-- Custom cash input (Visible only if Lainnya is selected) -->
+          <div id="customCashGroup" class="form-group is-hidden" style="margin-top: 10px;">
+            <div class="input-with-prefix">
+              <span class="input-prefix">Rp</span>
+              <input type="number" id="customCashInput" class="form-input cash-input" placeholder="Isi nominal pecahan uang yang dibawa" min="0" step="1000">
             </div>
-            <div class="change-amount-display" id="changeAmountDisplay">Pilih pecahan uang di atas</div>
-            <div class="change-desc" id="changeDescText">Penjual atau anggota keluarga yang menjaga gerai akan menyiapkan uang kembalian sesuai angka ini.</div>
           </div>
         </div>
 
-        <!-- QRIS Info Section (Active when QRIS is selected) -->
-        <div id="qrisInfoBlock" class="qris-info-block is-hidden">
+        <!-- QRIS Info Block -->
+        <div id="qrisDetailsBlock" class="qris-details-block is-hidden">
           <div class="qris-box-inner">
-            <div class="qris-badge-col">
-              <svg class="icon icon-lg text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="3" y="3" width="7" height="7"></rect>
-                <rect x="14" y="3" width="7" height="7"></rect>
-                <rect x="3" y="14" width="7" height="7"></rect>
-                <path d="M14 14h3v3h-3zM14 20h3M20 14v3M20 20h.01"></path>
-              </svg>
-            </div>
-            <div>
-              <h4 class="qris-heading">Pembayaran via QRIS Statis</h4>
-              <p class="qris-text">
-                Barcode QRIS resmi tersedia di meja kasir gerai. Jika memesan via WhatsApp, Anda dapat meminta kiriman foto kode QRIS untuk transfer langsung sebelum pengambilan atau saat diantar COD.
-              </p>
-            </div>
+            <svg class="icon icon-md text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="16" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+            <p class="qris-desc">Kode QRIS tersedia di gerai atau dikirim lewat WhatsApp.</p>
           </div>
+        </div>
+
+        <!-- Optional Notes -->
+        <div class="form-group">
+          <label for="orderNotes" class="form-label">Catatan Tambahan (opsional)</label>
+          <input type="text" id="orderNotes" class="form-input" placeholder="Contoh: Titip di pos satpam / varian rasa">
         </div>
       </div>
     </section>
 
-    <!-- SECTION 4: OUTPUT PREVIEW & KIRIM WHATSAPP -->
+    <!-- SECTION 3: PRATINJAU & KIRIM WHATSAPP (LAYAR 3) -->
     <section id="whatsapp-section" class="section-block">
       <div class="section-header">
         <div>
-          <span class="section-eyebrow">Layar 3 — Integrasi WhatsApp</span>
-          <h2 class="section-title">Kirim Pesanan Terformat (#ORDER-BEBES)</h2>
+          <span class="section-eyebrow">Layar 3 — Konfirmasi Pesanan</span>
+          <h2 class="section-title">Kirim Pesanan ke WhatsApp</h2>
         </div>
-        <p class="section-subtitle">Format terstruktur memudahkan pemilik merekap dan membaca pesanan tanpa salah catat.</p>
+        <p class="section-subtitle">Tinjau isi pesan sebelum dikirimkan ke pemilik.</p>
       </div>
 
       <div class="whatsapp-card">
         <div class="preview-header">
           <div class="preview-indicator">
             <span class="preview-dot"></span>
-            <span class="preview-label">Pratinjau Pesan yang Akan Terkirim ke WhatsApp</span>
+            <span class="preview-label">Format Pesan WhatsApp (#ORDER-BEBES)</span>
           </div>
-          <span class="target-wa-badge">Tujuan: 0852-9999-9644</span>
         </div>
 
-        <!-- Live formatted message preview -->
-        <pre class="message-preview-box" id="messagePreview">#ORDER-BEBES (PRE-ORDER WEB)
-----------------------------------------
-Nama: (Isi nama di atas)
+        <!-- Message Preview Box -->
+        <pre class="message-preview-box" id="messagePreview">#ORDER-BEBES
+Nama: ...
+Layanan: Ambil di gerai
 Pesanan:
-(Belum ada item dipilih)
-----------------------------------------
-Total Bayar: Rp 0
-Layanan: Ambil di Gerai
-Pembayaran: Tunai
-Siapkan Kembalian: Rp 0</pre>
+(Belum ada menu dipilih)
+Total: Rp0
+Bayar: Tunai
+Pecahan dibawa: Uang pas
+Mohon konfirmasi stok & jam. Terima kasih.</pre>
 
-        <!-- Final CTA Button -->
+        <!-- CTA Button -->
         <button type="button" id="btnSendWhatsapp" class="btn-whatsapp" disabled>
           <svg class="icon icon-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
           </svg>
-          <span id="btnWhatsappText">Pesan Sekarang via WhatsApp (1-Klik)</span>
+          <span id="btnWhatsappText">Pesan Sekarang via WhatsApp</span>
         </button>
 
-        <p class="whatsapp-guarantee">
-          Sistem akan otomatis membuka aplikasi WhatsApp dengan teks di atas. Anda cukup menekan tombol kirim di WhatsApp tanpa harus mengetik manual.
+        <p class="disclaimer-subtext">
+          Prototype uji Minggu 11 · tanpa login, tanpa pembayaran online. Pesanan dikirim lewat WhatsApp dan baru sah setelah dikonfirmasi pemilik.
         </p>
-      </div>
-    </section>
-
-    <!-- SECTION 5: PANDUAN PENGELOLA & REKAP LOKAL -->
-    <section class="section-block section-owner-tools">
-      <div class="owner-tools-card">
-        <div class="owner-header">
-          <div class="owner-title-group">
-            <svg class="icon icon-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-              <polyline points="14 2 14 8 20 8"></polyline>
-              <line x1="16" y1="13" x2="8" y2="13"></line>
-              <line x1="16" y1="17" x2="8" y2="17"></line>
-              <polyline points="10 9 9 9 8 9"></polyline>
-            </svg>
-            <div>
-              <h3 class="owner-heading">Fitur Bantuan Kasir Gerai &amp; Rekap Pesanan</h3>
-              <p class="owner-desc">Khusus Ibu Harnida dan anggota keluarga yang membantu menjaga gerai saat jam sibuk.</p>
-            </div>
-          </div>
-          <button type="button" id="btnToggleHistory" class="btn-secondary">
-            <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="10"></circle>
-              <polyline points="12 6 12 12 14 14"></polyline>
-            </svg>
-            <span>Lihat Log Pesanan Lokal</span>
-          </button>
-        </div>
-
-        <!-- Local Order History Panel (Collapsible) -->
-        <div id="historyPanel" class="history-panel is-hidden">
-          <div class="history-header">
-            <h4>Catatan Simulasi &amp; Riwayat Pesanan pada Perangkat Ini</h4>
-            <button type="button" id="btnClearHistory" class="btn-link">Hapus Riwayat</button>
-          </div>
-          <div id="historyListContainer" class="history-list">
-            <p class="empty-history-text">Belum ada pesanan yang tercatat di perangkat ini.</p>
-          </div>
-        </div>
       </div>
     </section>
 
   </main>
 
-  <!-- Sticky Bottom Bar on Mobile for Instant Checkout -->
+  <!-- Sticky Bottom Bar for Mobile -->
   <aside class="sticky-mobile-bar" id="stickyMobileBar">
     <div class="container sticky-container">
       <div class="sticky-info">
@@ -419,12 +365,11 @@ Siapkan Kembalian: Rp 0</pre>
     <div class="container footer-content">
       <div class="footer-col">
         <p class="footer-title">Pizza &amp; Bolen Jumbo The Bebes</p>
-        <p class="footer-sub">Usaha Kuliner Ritel Homemade Maros — Berdiri sejak 2024</p>
-        <p class="footer-contact">Jl. Poros Moncongloe, Kab. Maros | WhatsApp: 0852-9999-9644</p>
+        <p class="footer-sub">Usaha Kuliner Ritel Homemade Maros (Ibu H)</p>
+        <p class="footer-contact">Jl. Poros Moncongloe, Kab. Maros</p>
       </div>
       <div class="footer-col footer-col-right">
         <p class="academic-note">Prototipe Web Praktikum Kewirausahaan — Minggu 11</p>
-        <p class="student-info">Aril Pratama (NIM: 47124088 | Kelas: 3D TKJ)</p>
       </div>
     </div>
   </footer>
@@ -432,4 +377,3 @@ Siapkan Kembalian: Rp 0</pre>
   <script src="app.js"></script>
 </body>
 </html>
-
