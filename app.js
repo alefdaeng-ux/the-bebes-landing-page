@@ -1,67 +1,97 @@
 /**
  * THE BEBES — PIZZA & BOLEN JUMBO
- * Menu & Pre-Order Mandiri (Minggu 11)
+ * Mobile-First Storefront & Direct WhatsApp Ordering
  *
- * Konfigurasi Utama:
+ * Aturan implementasi:
  * - Bebas dari simbol emoji (zero emojis).
  * - Tanpa backend, login, database, atau localStorage.
- * - Format pesan seragam #ORDER-BEBES.
+ * - Desain responsif mobile dengan tab filter kategori.
  */
 
 // -------------------------------------------------------------
-// 1. KONSTANTA UTAMA (Nomor WhatsApp & Slot Jam COD)
+// 1. KONSTANTA UTAMA
 // -------------------------------------------------------------
 const WHATSAPP_NUMBER = '6285299999644';
-const COD_SLOTS = ['16.00 WITA', '17.15 WITA'];
 
 // -------------------------------------------------------------
-// 2. DATA PRODUK CONTOH (Untuk Uji Prototype)
+// 2. DATA PRODUK (PIZZA & BOLEN TERPISAH)
 // -------------------------------------------------------------
-const PRODUCTS = [
+const PIZZA_PRODUCTS = [
+  {
+    id: 'pizza-beef-patties',
+    name: 'Pizza Beef Patties',
+    category: 'Pizza Homemade',
+    price: 35000,
+    desc: 'Daging beef patties cincang tebal, saus spesial homemade, dan lelehan keju mozzarella gurih.',
+    image: 'assets/pizza_beef_patties.jpg'
+  },
+  {
+    id: 'pizza-sosis-mozarella',
+    name: 'Pizza Sosis Mozarella',
+    category: 'Pizza Homemade',
+    price: 30000,
+    desc: 'Potongan sosis sapi melimpah dengan lapisan keju mozzarella lumer dan saus tomat rempah segar.',
+    image: 'assets/pizza_sosis_mozarella.jpg'
+  },
+  {
+    id: 'pizza-smoked-beef',
+    name: 'Pizza Smoked Beef Supreme',
+    category: 'Pizza Homemade',
+    price: 35000,
+    desc: 'Daging asap pilihan berpadu jagung manis, sosis sapi, dan lelehan mozzarella panggang harum.',
+    image: 'assets/pizza_smoked_beef.jpg'
+  }
+];
+
+const BOLEN_PRODUCTS = [
+  {
+    id: 'bolen-cokelat',
+    name: 'Bolen Pisang Cokelat',
+    category: 'Bolen Jumbo',
+    price: 16000,
+    desc: 'Pisang raja manis legit berbalut pasta cokelat lumer dengan kulit pastry renyah berlapis.',
+    image: 'assets/bolen_cokelat.jpg'
+  },
+  {
+    id: 'bolen-keju',
+    name: 'Bolen Pisang Keju',
+    category: 'Bolen Jumbo',
+    price: 16000,
+    desc: 'Pisang raja manis dengan isian keju cheddar gurih dan aroma butter panggang harum.',
+    image: 'assets/bolen_keju.jpg'
+  },
   {
     id: 'bolen-cokelat-keju',
     name: 'Bolen Cokelat Keju Jumbo',
-    category: 'Bolen Jumbo Spesial',
+    category: 'Bolen Jumbo',
     price: 20000,
-    desc: 'Isi pisang raja pilihan, lelehan cokelat manis, dan keju cheddar gurih berukuran jumbo.',
-    image: 'assets/bolen_crop.jpg'
-  },
-  {
-    id: 'bolen-original',
-    name: 'Bolen Pisang Cokelat / Keju',
-    category: 'Bolen Jumbo Original',
-    price: 16000,
-    desc: 'Varian original ukuran jumbo dengan pilihan isian pisang cokelat atau keju manis.',
-    image: 'assets/bolen_tiktok.jpg'
-  },
-  {
-    id: 'pizza-homemade',
-    name: 'Pizza Homemade Spesial',
-    category: 'Pizza Fresh Panggang',
-    price: 30000,
-    desc: 'Base pizza fresh harian, racikan saus spesial homemade, topping sosis sapi dan mozzarella gurih.',
-    image: 'assets/pizza_spesial.jpg'
+    desc: 'Kombinasi komplit pisang raja manis, cokelat lumer, dan keju cheddar melimpah ukuran jumbo spesial.',
+    image: 'assets/bolen_cokelat_keju.jpg'
   }
 ];
+
+const ALL_PRODUCTS = [...PIZZA_PRODUCTS, ...BOLEN_PRODUCTS];
 
 // -------------------------------------------------------------
 // 3. STATE APLIKASI
 // -------------------------------------------------------------
 const state = {
-  cart: {
-    'bolen-cokelat-keju': 0,
-    'bolen-original': 0,
-    'pizza-homemade': 0
-  },
+  cart: {},
   customerName: '',
   serviceMethod: 'pickup', // 'pickup' | 'cod'
   codAddress: '',
-  codSlot: COD_SLOTS[0] || '16.00 WITA',
+  codTime: '16.00 WITA',
   orderNotes: '',
   paymentMethod: 'cash',   // 'cash' | 'qris'
   cashOption: 'Uang pas',  // 'Uang pas' | 'Rp20.000' | 'Rp50.000' | 'Rp100.000' | 'Lainnya'
-  customCash: ''
+  customCash: '',
+  activeFilter: 'all'      // 'all' | 'pizza' | 'bolen'
 };
+
+// Inisialisasi cart
+ALL_PRODUCTS.forEach(p => {
+  state.cart[p.id] = 0;
+});
 
 // -------------------------------------------------------------
 // 4. FORMATTER RUPIAH
@@ -75,115 +105,87 @@ function formatRupiah(number) {
 // -------------------------------------------------------------
 document.addEventListener('DOMContentLoaded', () => {
 
-  // Referensi Elemen DOM
-  const productGrid = document.getElementById('productGrid');
-  const inquiryLink = document.getElementById('inquiryLink');
+  // Elemen DOM
+  const pizzaGrid = document.getElementById('pizzaGrid');
+  const bolenGrid = document.getElementById('bolenGrid');
+  const pizzaSection = document.getElementById('pizzaSection');
+  const bolenSection = document.getElementById('bolenSection');
+  const categoryPills = document.querySelectorAll('.category-pill');
+
+  const summaryItemsBox = document.getElementById('summaryItemsBox');
+  const cartItemCountBadge = document.getElementById('cartItemCountBadge');
+  const totalPriceDisplay = document.getElementById('totalPriceDisplay');
 
   const customerNameInput = document.getElementById('customerName');
   const serviceMethodRadios = document.querySelectorAll('input[name="serviceMethod"]');
-  const codAddressGroup = document.getElementById('codAddressGroup');
+  const codFieldsContainer = document.getElementById('codFieldsContainer');
   const codAddressInput = document.getElementById('codAddress');
-  const codSlotGroup = document.getElementById('codSlotGroup');
-  const codSlotsGrid = document.getElementById('codSlotsGrid');
-  const orderNotesInput = document.getElementById('orderNotes');
-
-  const orderItemsList = document.getElementById('orderItemsList');
-  const totalAmountDisplay = document.getElementById('totalAmountDisplay');
+  const codTimeSelect = document.getElementById('codTimeSelect');
 
   const paymentMethodRadios = document.querySelectorAll('input[name="paymentMethod"]');
-  const cashDetailsBlock = document.getElementById('cashDetailsBlock');
-  const qrisDetailsBlock = document.getElementById('qrisDetailsBlock');
+  const cashPecahanSection = document.getElementById('cashPecahanSection');
   const cashOptionRadios = document.querySelectorAll('input[name="cashOption"]');
-  const customCashGroup = document.getElementById('customCashGroup');
-  const customCashInput = document.getElementById('customCashInput');
+  const customCashContainer = document.getElementById('customCashContainer');
+  const customCashAmount = document.getElementById('customCashAmount');
+  const qrisInfoBanner = document.getElementById('qrisInfoBanner');
 
-  const messagePreview = document.getElementById('messagePreview');
-  const btnSendWhatsapp = document.getElementById('btnSendWhatsapp');
-  const btnWhatsappText = document.getElementById('btnWhatsappText');
+  const orderNotesInput = document.getElementById('orderNotes');
+  const btnDirectWhatsapp = document.getElementById('btnDirectWhatsapp');
+  const btnDirectWhatsappLabel = document.getElementById('btnDirectWhatsappLabel');
 
-  const stickyMobileBar = document.getElementById('stickyMobileBar');
-  const stickyQtyDisplay = document.getElementById('stickyQtyDisplay');
-  const stickyTotalDisplay = document.getElementById('stickyTotalDisplay');
-  const btnStickyCheckout = document.getElementById('btnStickyCheckout');
+  const mobileStickyBar = document.getElementById('mobileStickyBar');
+  const stickyCountText = document.getElementById('stickyCountText');
+  const stickyPriceText = document.getElementById('stickyPriceText');
+  const btnStickyScroll = document.getElementById('btnStickyScroll');
 
-  // Set URL Tautan Tanya Ketersediaan WhatsApp
-  if (inquiryLink) {
-    const inquiryText = encodeURIComponent('Halo, apakah menu hari ini tersedia?');
-    inquiryLink.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${inquiryText}`;
-  }
+  // Render Kartu Produk
+  function renderProductCard(prod) {
+    const qty = state.cart[prod.id] || 0;
+    const isSelected = qty > 0;
 
-  // Render Slot COD Dinamis dari Konstanta
-  function renderCodSlots() {
-    codSlotsGrid.innerHTML = COD_SLOTS.map((slot, idx) => `
-      <label class="slot-chip" for="slot-${idx}">
-        <input type="radio" name="codSlot" id="slot-${idx}" value="${slot}" ${idx === 0 ? 'checked' : ''}>
-        <div class="slot-chip-content">
-          <span class="slot-time">${slot}</span>
+    return `
+      <article class="product-item-card ${isSelected ? 'is-active' : ''}" data-id="${prod.id}">
+        <div class="product-media">
+          <img src="${prod.image}" alt="${prod.name}" class="product-image" loading="lazy" onerror="this.style.display='none';">
+          <span class="product-tag">${prod.category}</span>
         </div>
-      </label>
-    `).join('');
-
-    codSlotsGrid.querySelectorAll('input[name="codSlot"]').forEach(radio => {
-      radio.addEventListener('change', (e) => {
-        state.codSlot = e.target.value;
-        updateUI();
-      });
-    });
+        <div class="product-content">
+          <div class="product-heading-group">
+            <h3 class="product-name">${prod.name}</h3>
+            <p class="product-desc">${prod.desc}</p>
+          </div>
+          <div class="product-action-bar">
+            <div class="price-box">
+              <span class="price-text">${formatRupiah(prod.price)}</span>
+            </div>
+            <div class="quantity-stepper" aria-label="Jumlah ${prod.name}">
+              <button type="button" class="stepper-btn btn-dec" data-id="${prod.id}" ${qty === 0 ? 'disabled' : ''} aria-label="Kurangi">
+                <svg class="icon icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </button>
+              <span class="stepper-count" id="count-${prod.id}">${qty}</span>
+              <button type="button" class="stepper-btn btn-inc" data-id="${prod.id}" aria-label="Tambah">
+                <svg class="icon icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <line x1="12" y1="5" x2="12" y2="19"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </article>
+    `;
   }
 
-  // Render Produk
-  function renderProducts() {
-    productGrid.innerHTML = PRODUCTS.map(prod => {
-      const qty = state.cart[prod.id] || 0;
-      const isSelected = qty > 0;
+  function renderGrids() {
+    pizzaGrid.innerHTML = PIZZA_PRODUCTS.map(renderProductCard).join('');
+    bolenGrid.innerHTML = BOLEN_PRODUCTS.map(renderProductCard).join('');
+    attachStepperEvents();
+  }
 
-      return `
-        <article class="product-card ${isSelected ? 'has-selected' : ''}" data-product-id="${prod.id}">
-          <div class="product-media-wrap">
-            <img src="${prod.image}" alt="${prod.name}" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-            <div class="product-img-fallback is-hidden" style="width:100%; height:100%; display:none; align-items:center; justify-content:center; background-color:#f1ede5; color:#78716c;">
-              <svg class="icon icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-                <line x1="3" y1="6" x2="21" y2="6"></line>
-              </svg>
-            </div>
-            <span class="product-badge-category">${prod.category}</span>
-          </div>
-
-          <div class="product-body">
-            <div class="product-info-group">
-              <h3 class="product-title">${prod.name}</h3>
-              <p class="product-desc">${prod.desc}</p>
-            </div>
-
-            <div class="product-footer-row">
-              <div class="product-price-col">
-                <span class="price-label">Harga</span>
-                <span class="product-price">${formatRupiah(prod.price)}</span>
-              </div>
-
-              <div class="stepper-control" aria-label="Jumlah pesanan ${prod.name}">
-                <button type="button" class="stepper-btn btn-decrease" data-id="${prod.id}" ${qty === 0 ? 'disabled' : ''} aria-label="Kurangi 1">
-                  <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                  </svg>
-                </button>
-                <span class="stepper-value" id="qty-${prod.id}">${qty}</span>
-                <button type="button" class="stepper-btn btn-increase" data-id="${prod.id}" aria-label="Tambah 1">
-                  <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="12" y1="5" x2="12" y2="19"></line>
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                  </svg>
-                </button>
-              </div>
-            </div>
-          </div>
-        </article>
-      `;
-    }).join('');
-
-    // Listener Counter
-    productGrid.querySelectorAll('.btn-increase').forEach(btn => {
+  function attachStepperEvents() {
+    document.querySelectorAll('.btn-inc').forEach(btn => {
       btn.addEventListener('click', () => {
         const id = btn.getAttribute('data-id');
         state.cart[id] = (state.cart[id] || 0) + 1;
@@ -191,7 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    productGrid.querySelectorAll('.btn-decrease').forEach(btn => {
+    document.querySelectorAll('.btn-dec').forEach(btn => {
       btn.addEventListener('click', () => {
         const id = btn.getAttribute('data-id');
         if (state.cart[id] > 0) {
@@ -208,7 +210,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let totalPrice = 0;
     const items = [];
 
-    PRODUCTS.forEach(p => {
+    ALL_PRODUCTS.forEach(p => {
       const qty = state.cart[p.id] || 0;
       if (qty > 0) {
         const subtotal = qty * p.price;
@@ -227,38 +229,34 @@ document.addEventListener('DOMContentLoaded', () => {
     return { totalItems, totalPrice, items };
   }
 
-  // Generator Format Pesan WhatsApp Sesuai Instruksi
-  function buildOrderText(totalPrice, items) {
+  // Generator Pesan WhatsApp (Langsung dikirim ke URL, tanpa raw preview box)
+  function generateWhatsAppMessage(totalPrice, items) {
     const lines = [];
     lines.push('#ORDER-BEBES');
-    lines.push(`Nama: ${state.customerName.trim() || '...'}`);
+    lines.push(`Nama: ${state.customerName.trim()}`);
 
     if (state.serviceMethod === 'cod') {
       lines.push('Layanan: Antar COD FM2');
-      lines.push(`Alamat: ${state.codAddress.trim() || '...'}`);
-      lines.push(`Jam: ${state.codSlot}`);
+      lines.push(`Alamat: ${state.codAddress.trim()}`);
+      lines.push(`Jam: ${state.codTime}`);
     } else {
       lines.push('Layanan: Ambil di gerai');
     }
 
     lines.push('Pesanan:');
-    if (items.length > 0) {
-      items.forEach(it => {
-        lines.push(`- ${it.name} x${it.qty} = ${formatRupiah(it.subtotal)}`);
-      });
-    } else {
-      lines.push('(Belum ada menu dipilih)');
-    }
+    items.forEach(it => {
+      lines.push(`- ${it.name} x${it.qty} = ${formatRupiah(it.subtotal)}`);
+    });
 
     lines.push(`Total: ${formatRupiah(totalPrice)}`);
 
     if (state.paymentMethod === 'cash') {
       lines.push('Bayar: Tunai');
-      let pecahanText = state.cashOption;
-      if (state.cashOption === 'Lainnya') {
-        pecahanText = state.customCash.trim() ? `${formatRupiah(state.customCash)}` : 'Lainnya (belum diisi)';
+      let pecahan = state.cashOption;
+      if (state.cashOption === 'Lainnya' && state.customCash.trim()) {
+        pecahan = `${formatRupiah(state.customCash)}`;
       }
-      lines.push(`Pecahan dibawa: ${pecahanText}`);
+      lines.push(`Pecahan dibawa: ${pecahan}`);
     } else {
       lines.push('Bayar: QRIS statis');
     }
@@ -272,64 +270,59 @@ document.addEventListener('DOMContentLoaded', () => {
     return lines.join('\n');
   }
 
-  // Update UI & Validasi Tombol
+  // Update UI Keseluruhan
   function updateUI() {
     const { totalItems, totalPrice, items } = calculateTotals();
 
-    // 1. Update Card Kuantitas
-    PRODUCTS.forEach(p => {
+    // 1. Update Stepper & Kartu Produk
+    ALL_PRODUCTS.forEach(p => {
       const qty = state.cart[p.id] || 0;
-      const card = productGrid.querySelector(`[data-product-id="${p.id}"]`);
-      const qtyElem = document.getElementById(`qty-${p.id}`);
-      if (qtyElem) qtyElem.textContent = qty;
+      const countEl = document.getElementById(`count-${p.id}`);
+      if (countEl) countEl.textContent = qty;
 
-      if (card) {
+      const cardEl = document.querySelector(`.product-item-card[data-id="${p.id}"]`);
+      if (cardEl) {
         if (qty > 0) {
-          card.classList.add('has-selected');
+          cardEl.classList.add('is-active');
         } else {
-          card.classList.remove('has-selected');
+          cardEl.classList.remove('is-active');
         }
-        const decBtn = card.querySelector('.btn-decrease');
+        const decBtn = cardEl.querySelector('.btn-dec');
         if (decBtn) decBtn.disabled = qty === 0;
       }
     });
 
-    // 2. Render Rincian Belanja
+    // 2. Update Ringkasan Belanja
+    cartItemCountBadge.textContent = `${totalItems} Menu`;
+    totalPriceDisplay.textContent = formatRupiah(totalPrice);
+
     if (items.length === 0) {
-      orderItemsList.innerHTML = '<p class="empty-cart-text">Belum ada menu yang dipilih. Silakan tekan tombol (+) pada katalog menu di atas.</p>';
+      summaryItemsBox.innerHTML = '<p class="empty-cart-message">Pilih menu di atas dengan menekan tombol tambah (+) untuk mulai berbelanja.</p>';
     } else {
-      orderItemsList.innerHTML = items.map(item => `
-        <div class="order-item-row">
-          <div class="order-item-meta">
-            <strong>${item.qty}x</strong> ${item.name}
-          </div>
-          <div class="order-item-subtotal">${formatRupiah(item.subtotal)}</div>
+      summaryItemsBox.innerHTML = items.map(it => `
+        <div class="summary-item-row">
+          <span class="item-row-left"><strong>${it.qty}x</strong> ${it.name}</span>
+          <span class="item-row-price">${formatRupiah(it.subtotal)}</span>
         </div>
       `).join('');
     }
 
-    totalAmountDisplay.textContent = formatRupiah(totalPrice);
-
-    // 3. Sticky Bottom Bar pada Layar HP
+    // 3. Mobile Sticky Bottom Bar
     if (totalItems > 0) {
-      stickyMobileBar.classList.add('is-visible');
-      stickyQtyDisplay.textContent = `${totalItems} Menu Dipilih`;
-      stickyTotalDisplay.textContent = formatRupiah(totalPrice);
+      mobileStickyBar.classList.add('is-visible');
+      stickyCountText.textContent = `${totalItems} Menu Dipilih`;
+      stickyPriceText.textContent = formatRupiah(totalPrice);
     } else {
-      stickyMobileBar.classList.remove('is-visible');
+      mobileStickyBar.classList.remove('is-visible');
     }
 
-    // 4. Update Format Pesan Pratinjau
-    const message = buildOrderText(totalPrice, items);
-    messagePreview.textContent = message;
-
-    // 5. Validasi Tombol WhatsApp
-    const hasItems = items.length > 0;
+    // 4. Validasi Tombol WhatsApp
+    const hasItems = totalItems > 0;
     const hasName = state.customerName.trim().length > 0;
 
     let isCodValid = true;
     if (state.serviceMethod === 'cod') {
-      isCodValid = state.codAddress.trim().length > 0 && state.codSlot.length > 0;
+      isCodValid = state.codAddress.trim().length > 0;
     }
 
     let isCashValid = true;
@@ -339,18 +332,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const isValid = hasItems && hasName && isCodValid && isCashValid;
 
-    btnSendWhatsapp.disabled = !isValid;
+    btnDirectWhatsapp.disabled = !isValid;
 
     if (!hasItems) {
-      btnWhatsappText.textContent = 'Pilih Minimal 1 Menu Terlebih Dahulu';
+      btnDirectWhatsappLabel.textContent = 'Pilih Minimal 1 Menu Terlebih Dahulu';
     } else if (!hasName) {
-      btnWhatsappText.textContent = 'Isi Nama Pemesan di Formulir';
+      btnDirectWhatsappLabel.textContent = 'Isi Nama Pemesan';
     } else if (state.serviceMethod === 'cod' && !state.codAddress.trim()) {
-      btnWhatsappText.textContent = 'Isi Alamat (Blok/No. Rumah) untuk COD';
+      btnDirectWhatsappLabel.textContent = 'Isi Alamat Rumah untuk Pengantaran COD';
     } else if (state.paymentMethod === 'cash' && state.cashOption === 'Lainnya' && !isCashValid) {
-      btnWhatsappText.textContent = 'Isi Nominal Pecahan Uang';
+      btnDirectWhatsappLabel.textContent = 'Isi Nominal Pecahan Uang';
     } else {
-      btnWhatsappText.textContent = 'Pesan Sekarang via WhatsApp';
+      btnDirectWhatsappLabel.textContent = 'Pesan Sekarang via WhatsApp';
     }
   }
 
@@ -358,99 +351,125 @@ document.addEventListener('DOMContentLoaded', () => {
   // 6. EVENT HANDLERS
   // -------------------------------------------------------------
 
-  // Input Nama
+  // Category Filter Tab
+  categoryPills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      categoryPills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+
+      const filter = pill.getAttribute('data-filter');
+      state.activeFilter = filter;
+
+      if (filter === 'all') {
+        pizzaSection.classList.remove('is-hidden');
+        bolenSection.classList.remove('is-hidden');
+      } else if (filter === 'pizza') {
+        pizzaSection.classList.remove('is-hidden');
+        bolenSection.classList.add('is-hidden');
+        pizzaSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else if (filter === 'bolen') {
+        pizzaSection.classList.add('is-hidden');
+        bolenSection.classList.remove('is-hidden');
+        bolenSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // Nama Pemesan
   customerNameInput.addEventListener('input', (e) => {
     state.customerName = e.target.value;
     updateUI();
   });
 
-  // Metode Layanan
+  // Metode Layanan (Ambil vs COD)
   serviceMethodRadios.forEach(radio => {
     radio.addEventListener('change', (e) => {
       state.serviceMethod = e.target.value;
       if (state.serviceMethod === 'cod') {
-        codAddressGroup.classList.remove('is-hidden');
-        codSlotGroup.classList.remove('is-hidden');
+        codFieldsContainer.classList.remove('is-hidden');
       } else {
-        codAddressGroup.classList.add('is-hidden');
-        codSlotGroup.classList.add('is-hidden');
+        codFieldsContainer.classList.add('is-hidden');
       }
       updateUI();
     });
   });
 
-  // Input Alamat COD
+  // Alamat COD
   codAddressInput.addEventListener('input', (e) => {
     state.codAddress = e.target.value;
     updateUI();
   });
 
-  // Catatan
-  orderNotesInput.addEventListener('input', (e) => {
-    state.orderNotes = e.target.value;
+  // Dropdown Jam COD (08.00 - 17.00 WITA)
+  codTimeSelect.addEventListener('change', (e) => {
+    state.codTime = e.target.value;
     updateUI();
   });
 
-  // Pilihan Pembayaran (Tunai vs QRIS statis)
+  // Pembayaran (Tunai vs QRIS)
   paymentMethodRadios.forEach(radio => {
     radio.addEventListener('change', (e) => {
       state.paymentMethod = e.target.value;
       if (state.paymentMethod === 'cash') {
-        cashDetailsBlock.classList.remove('is-hidden');
-        qrisDetailsBlock.classList.add('is-hidden');
+        cashPecahanSection.classList.remove('is-hidden');
+        qrisInfoBanner.classList.add('is-hidden');
       } else {
-        cashDetailsBlock.classList.add('is-hidden');
-        qrisDetailsBlock.classList.remove('is-hidden');
+        cashPecahanSection.classList.add('is-hidden');
+        qrisInfoBanner.classList.remove('is-hidden');
       }
       updateUI();
     });
   });
 
-  // Pilihan Pecahan Uang Tunai
+  // Pecahan Tunai
   cashOptionRadios.forEach(radio => {
     radio.addEventListener('change', (e) => {
       state.cashOption = e.target.value;
       if (state.cashOption === 'Lainnya') {
-        customCashGroup.classList.remove('is-hidden');
-        customCashInput.focus();
+        customCashContainer.classList.remove('is-hidden');
+        customCashAmount.focus();
       } else {
-        customCashGroup.classList.add('is-hidden');
+        customCashContainer.classList.add('is-hidden');
       }
       updateUI();
     });
   });
 
-  // Input Manual Pecahan Lainnya
-  customCashInput.addEventListener('input', (e) => {
+  // Nominal Tunai Lainnya
+  customCashAmount.addEventListener('input', (e) => {
     state.customCash = e.target.value;
     updateUI();
   });
 
-  // Tombol Sticky Mobile
-  btnStickyCheckout.addEventListener('click', () => {
-    const formSection = document.getElementById('layanan-section');
-    if (formSection) {
-      formSection.scrollIntoView({ behavior: 'smooth' });
+  // Catatan Tambahan
+  orderNotesInput.addEventListener('input', (e) => {
+    state.orderNotes = e.target.value;
+  });
+
+  // Sticky Bar Scroll to Checkout Form
+  btnStickyScroll.addEventListener('click', () => {
+    const checkoutEl = document.getElementById('checkoutSection');
+    if (checkoutEl) {
+      checkoutEl.scrollIntoView({ behavior: 'smooth' });
       customerNameInput.focus();
     }
   });
 
-  // Tombol Kirim WhatsApp
-  btnSendWhatsapp.addEventListener('click', () => {
+  // Aksi Langsung Kirim WhatsApp
+  btnDirectWhatsapp.addEventListener('click', () => {
     const { items, totalPrice } = calculateTotals();
     if (items.length === 0 || !state.customerName.trim()) return;
     if (state.serviceMethod === 'cod' && !state.codAddress.trim()) return;
 
-    const message = buildOrderText(totalPrice, items);
+    const message = generateWhatsAppMessage(totalPrice, items);
     const encoded = encodeURIComponent(message);
     const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encoded}`;
 
     window.open(url, '_blank');
   });
 
-  // Eksekusi Render Awal
-  renderCodSlots();
-  renderProducts();
+  // Render Pertama
+  renderGrids();
   updateUI();
 
 });

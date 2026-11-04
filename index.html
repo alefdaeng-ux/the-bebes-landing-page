@@ -2,34 +2,112 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Bebes — Menu &amp; Pre-Order Pizza dan Bolen Jumbo</title>
-  <meta name="description" content="Katalog menu dan pemesanan mandiri Pizza &amp; Bolen Jumbo The Bebes, Jl. Poros Moncongloe, Maros.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>The Bebes — Pizza &amp; Bolen Jumbo Homemade</title>
+  <meta name="description" content="Pesan Pizza homemade dan Bolen Jumbo lezat langsung di The Bebes Moncongloe via WhatsApp.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-  <!-- Top Announcement Bar -->
-  <aside class="announcement-bar">
-    <div class="container announcement-content">
-      <div class="announcement-item">
-        <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="10"></circle>
-          <polyline points="12 6 12 12 16 14"></polyline>
-        </svg>
+  <!-- Top Status Bar -->
+  <aside class="top-status-bar">
+    <div class="container status-inner">
+      <div class="status-badge">
+        <span class="status-pulse-dot"></span>
         <span>Buka 07.00–18.00 WITA</span>
+      </div>
+      <div class="status-location">
+        <svg class="icon icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+          <circle cx="12" cy="10" r="3"></circle>
+        </svg>
+        <span>Jl. Poros Moncongloe, Maros</span>
       </div>
     </div>
   </aside>
 
-  <!-- Site Header -->
-  <header class="site-header">
-    <div class="container header-container">
-      <div class="brand-group">
-        <div class="brand-badge">
+  <!-- Brand Hero Header -->
+  <header class="store-hero">
+    <div class="container hero-container">
+      <div class="hero-brand-card">
+        <div class="brand-avatar">
+          <svg class="icon icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <path d="M16 10a4 4 0 0 1-8 0"></path>
+          </svg>
+        </div>
+        <div class="brand-headings">
+          <h1 class="store-name">The Bebes</h1>
+          <p class="store-subtitle">Pizza &amp; Bolen Jumbo Homemade</p>
+          <p class="store-highlights">Bahan baku fresh setiap hari, keju mozzarella melimpah, dan resep saus rumahan khas.</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Category Filter Bar (Mobile Sticky) -->
+  <nav class="category-nav-wrapper">
+    <div class="container category-nav-container">
+      <div class="category-pills" id="categoryPills">
+        <button type="button" class="category-pill active" data-filter="all">Semua Menu</button>
+        <button type="button" class="category-pill" data-filter="pizza">Pizza Homemade</button>
+        <button type="button" class="category-pill" data-filter="bolen">Bolen Jumbo</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Store Layout -->
+  <main class="container store-layout">
+
+    <!-- Section Pizza -->
+    <section id="pizzaSection" class="menu-section">
+      <div class="section-title-wrap">
+        <div class="section-icon-badge">
+          <svg class="icon icon-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+            <path d="M2 12h20"></path>
+          </svg>
+        </div>
+        <div>
+          <h2 class="menu-section-title">Pizza Homemade</h2>
+          <p class="menu-section-desc">Adonan base fresh setiap hari dengan saus spesial dan limpahan keju mozzarella.</p>
+        </div>
+      </div>
+
+      <div class="products-grid" id="pizzaGrid">
+        <!-- Rendered by app.js -->
+      </div>
+    </section>
+
+    <!-- Section Bolen -->
+    <section id="bolenSection" class="menu-section">
+      <div class="section-title-wrap">
+        <div class="section-icon-badge">
+          <svg class="icon icon-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+          </svg>
+        </div>
+        <div>
+          <h2 class="menu-section-title">Bolen Jumbo</h2>
+          <p class="menu-section-desc">Kulit pastry renyah berlapis dengan isian pisang raja manis pilihan.</p>
+        </div>
+      </div>
+
+      <div class="products-grid" id="bolenGrid">
+        <!-- Rendered by app.js -->
+      </div>
+    </section>
+
+    <!-- Section Checkout & Form -->
+    <section id="checkoutSection" class="checkout-section">
+      <div class="section-title-wrap">
+        <div class="section-icon-badge accent-badge">
           <svg class="icon icon-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
             <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -37,120 +115,73 @@
           </svg>
         </div>
         <div>
-          <h1 class="brand-title">The Bebes</h1>
-          <p class="brand-tagline">Pizza &amp; Bolen Jumbo Homemade</p>
+          <h2 class="menu-section-title">Pemesanan &amp; Pembayaran</h2>
+          <p class="menu-section-desc">Pilih layanan pengambilan dan metode pembayaran.</p>
         </div>
       </div>
 
-      <div class="header-location">
-        <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-          <circle cx="12" cy="10" r="3"></circle>
-        </svg>
-        <span>Jl. Poros Moncongloe, Maros (Area Perumahan FM2)</span>
-      </div>
-    </div>
-  </header>
-
-  <!-- Main Content Layout -->
-  <main class="container page-layout">
-
-    <!-- Notice Card: Prototype Disclaimer -->
-    <section class="banner-card">
-      <div class="banner-body">
-        <div class="banner-icon-col">
-          <svg class="icon icon-lg text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="10"></circle>
-            <line x1="12" y1="16" x2="12" y2="12"></line>
-            <line x1="12" y1="8" x2="12.01" y2="8"></line>
-          </svg>
+      <!-- Order Summary Card -->
+      <div class="order-summary-card">
+        <div class="summary-card-header">
+          <h3 class="summary-card-title">Keranjang Belanja</h3>
+          <span class="items-badge" id="cartItemCountBadge">0 Menu</span>
         </div>
-        <div class="banner-text-col">
-          <p class="prototype-banner-text">
-            Prototype uji Minggu 11 · tanpa login, tanpa pembayaran online. Pesanan dikirim lewat WhatsApp dan baru sah setelah dikonfirmasi pemilik.
-          </p>
-        </div>
-      </div>
-    </section>
 
-    <!-- SECTION 1: KATALOG MENU (LAYAR 1) -->
-    <section id="katalog-section" class="section-block">
-      <div class="section-header">
-        <div>
-          <span class="section-eyebrow">Layar 1 — Katalog Produk</span>
-          <h2 class="section-title">Menu &amp; Harga</h2>
+        <div class="summary-items-box" id="summaryItemsBox">
+          <p class="empty-cart-message">Pilih menu di atas dengan menekan tombol tambah (+) untuk mulai berbelanja.</p>
         </div>
-        <p class="section-note">
-          Varian dan harga adalah contoh untuk uji prototype dan akan disesuaikan dengan daftar asli dari pemilik. Ketersediaan hari ini dikonfirmasi pemilik lewat WhatsApp.
-        </p>
-        <div class="inquiry-wrap">
-          <a href="#" id="inquiryLink" class="inquiry-link" target="_blank" rel="noopener">
-            <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
-            </svg>
-            <span>Tanya ketersediaan hari ini via WhatsApp</span>
-          </a>
+
+        <div class="summary-total-row">
+          <span class="total-caption">Total Pembayaran</span>
+          <span class="total-price" id="totalPriceDisplay">Rp0</span>
         </div>
       </div>
 
-      <div class="product-grid" id="productGrid">
-        <!-- Rendered dynamically by app.js -->
-      </div>
-    </section>
+      <!-- Checkout Form Card -->
+      <div class="checkout-card">
 
-    <!-- SECTION 2: FORMULIR PRE-ORDER & PEMBAYARAN (LAYAR 2) -->
-    <section id="layanan-section" class="section-block">
-      <div class="section-header">
-        <div>
-          <span class="section-eyebrow">Layar 2 — Formulir Pre-Order</span>
-          <h2 class="section-title">Detail Pemesanan &amp; Pembayaran</h2>
-        </div>
-        <p class="section-subtitle">Lengkapi data pemesanan sebelum mengirim ke WhatsApp.</p>
-      </div>
-
-      <div class="form-card">
-        <!-- Customer Name -->
-        <div class="form-group">
-          <label for="customerName" class="form-label">
+        <!-- Nama Pemesan -->
+        <div class="field-group">
+          <label for="customerName" class="field-label">
             Nama Pemesan
-            <span class="required-mark">*</span>
+            <span class="field-required">*</span>
           </label>
-          <div class="input-with-icon">
+          <div class="input-container">
             <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
               <circle cx="12" cy="7" r="4"></circle>
             </svg>
-            <input type="text" id="customerName" class="form-input" placeholder="Nama pemesan" autocomplete="name">
+            <input type="text" id="customerName" class="text-input" placeholder="Nama Anda / Pemesan" autocomplete="name">
           </div>
         </div>
 
-        <!-- Service Method -->
-        <div class="form-group">
-          <label class="form-label">
-            Metode Layanan
-            <span class="required-mark">*</span>
+        <!-- Metode Layanan -->
+        <div class="field-group">
+          <label class="field-label">
+            Pilihan Layanan
+            <span class="field-required">*</span>
           </label>
-          <div class="service-option-grid">
-            <label class="service-card" for="servicePickup">
-              <input type="radio" name="serviceMethod" id="servicePickup" value="pickup" checked>
-              <div class="service-card-body">
-                <div class="service-icon-box">
+          <div class="service-selection-grid">
+            <label class="service-tile" for="methodPickup">
+              <input type="radio" name="serviceMethod" id="methodPickup" value="pickup" checked>
+              <div class="service-tile-box">
+                <div class="service-tile-icon">
                   <svg class="icon icon-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                     <polyline points="9 22 9 12 15 12 15 22"></polyline>
                   </svg>
                 </div>
-                <div class="service-info">
-                  <div class="service-title">Ambil di gerai</div>
-                  <div class="service-desc">Langsung ambil di stan Jl. Poros Moncongloe.</div>
+                <div class="service-tile-text">
+                  <span class="tile-title">Ambil di Gerai</span>
+                  <span class="tile-desc">Ambil langsung di stan Jl. Poros Moncongloe</span>
                 </div>
               </div>
             </label>
 
-            <label class="service-card" for="serviceCod">
-              <input type="radio" name="serviceMethod" id="serviceCod" value="cod">
-              <div class="service-card-body">
-                <div class="service-icon-box">
+            <label class="service-tile" for="methodCod">
+              <input type="radio" name="serviceMethod" id="methodCod" value="cod">
+              <div class="service-tile-box">
+                <div class="service-tile-icon">
                   <svg class="icon icon-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <rect x="1" y="3" width="15" height="13"></rect>
                     <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
@@ -158,64 +189,71 @@
                     <circle cx="18.5" cy="18.5" r="2.5"></circle>
                   </svg>
                 </div>
-                <div class="service-info">
-                  <div class="service-title">Antar COD FM2</div>
-                  <div class="service-desc">Khusus warga Perumahan Findaria Mas 2.</div>
+                <div class="service-tile-text">
+                  <span class="tile-title">Antar COD FM2</span>
+                  <span class="tile-desc">Khusus warga Perumahan Findaria Mas 2</span>
                 </div>
               </div>
             </label>
           </div>
         </div>
 
-        <!-- COD Address Field (Visible only if COD is selected) -->
-        <div id="codAddressGroup" class="form-group is-hidden">
-          <label for="codAddress" class="form-label">
-            Alamat (blok/no. rumah)
-            <span class="required-mark">*</span>
-          </label>
-          <div class="input-with-icon">
-            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-              <circle cx="12" cy="10" r="3"></circle>
-            </svg>
-            <input type="text" id="codAddress" class="form-input" placeholder="Contoh: Blok C No. 12">
+        <!-- COD Specific Fields -->
+        <div id="codFieldsContainer" class="cod-conditional-block is-hidden">
+          
+          <!-- Alamat COD -->
+          <div class="field-group">
+            <label for="codAddress" class="field-label">
+              Alamat Pengantaran (Blok / No. Rumah)
+              <span class="field-required">*</span>
+            </label>
+            <div class="input-container">
+              <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+              <input type="text" id="codAddress" class="text-input" placeholder="Contoh: Blok C No. 12">
+            </div>
           </div>
-          <span class="input-hint">Wajib diisi untuk pengantaran COD Perumahan FM2.</span>
+
+          <!-- Dropdown Pilihan Jam (Jam 8 pagi sampai Jam 5 sore) -->
+          <div class="field-group">
+            <label for="codTimeSelect" class="field-label">
+              Pilihan Jam Pengantaran
+              <span class="field-required">*</span>
+            </label>
+            <div class="select-container">
+              <select id="codTimeSelect" class="dropdown-select">
+                <option value="08.00 WITA">08.00 WITA</option>
+                <option value="09.00 WITA">09.00 WITA</option>
+                <option value="10.00 WITA">10.00 WITA</option>
+                <option value="11.00 WITA">11.00 WITA</option>
+                <option value="12.00 WITA">12.00 WITA</option>
+                <option value="13.00 WITA">13.00 WITA</option>
+                <option value="14.00 WITA">14.00 WITA</option>
+                <option value="15.00 WITA">15.00 WITA</option>
+                <option value="16.00 WITA" selected>16.00 WITA</option>
+                <option value="17.00 WITA">17.00 WITA</option>
+              </select>
+              <svg class="select-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </div>
+            <span class="field-hint">Tersedia mulai pukul 08.00 hingga 17.00 WITA.</span>
+          </div>
+
         </div>
 
-        <!-- COD Time Slot (Visible only if COD is selected) -->
-        <div id="codSlotGroup" class="form-group cod-slot-block is-hidden">
-          <label class="form-label">
-            Pilihan Jam Antar COD
-            <span class="required-mark">*</span>
+        <!-- Metode Pembayaran -->
+        <div class="field-group">
+          <label class="field-label">
+            Metode Pembayaran
+            <span class="field-required">*</span>
           </label>
-          <div class="slot-option-grid" id="codSlotsGrid">
-            <!-- Dynamically populated from COD_SLOTS constant -->
-          </div>
-        </div>
-
-        <!-- Order Items Summary & Total -->
-        <div class="summary-breakdown">
-          <h3 class="breakdown-title">Rincian Belanja</h3>
-          <div id="orderItemsList" class="order-items-list">
-            <p class="empty-cart-text">Belum ada menu yang dipilih. Silakan tekan tombol (+) pada katalog menu di atas.</p>
-          </div>
-          <div class="summary-total-row">
-            <span class="total-label">Total:</span>
-            <span class="total-amount" id="totalAmountDisplay">Rp 0</span>
-          </div>
-        </div>
-
-        <!-- Payment Method -->
-        <div class="form-group">
-          <label class="form-label">
-            Pembayaran
-            <span class="required-mark">*</span>
-          </label>
-          <div class="payment-option-grid">
-            <label class="payment-radio" for="payCash">
+          <div class="payment-selection-grid">
+            <label class="payment-tile" for="payCash">
               <input type="radio" name="paymentMethod" id="payCash" value="cash" checked>
-              <div class="payment-box">
+              <div class="payment-tile-box">
                 <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <rect x="2" y="6" width="20" height="12" rx="2"></rect>
                   <circle cx="12" cy="12" r="2"></circle>
@@ -225,133 +263,97 @@
               </div>
             </label>
 
-            <label class="payment-radio" for="payQris">
+            <label class="payment-tile" for="payQris">
               <input type="radio" name="paymentMethod" id="payQris" value="qris">
-              <div class="payment-box">
+              <div class="payment-tile-box">
                 <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <rect x="3" y="3" width="7" height="7"></rect>
                   <rect x="14" y="3" width="7" height="7"></rect>
                   <rect x="3" y="14" width="7" height="7"></rect>
                   <path d="M14 14h3v3h-3zM14 20h3M20 14v3M20 20h.01"></path>
                 </svg>
-                <span>QRIS statis</span>
+                <span>QRIS Statis</span>
               </div>
             </label>
           </div>
         </div>
 
-        <!-- Cash Details (Informational, No Calculator) -->
-        <div id="cashDetailsBlock" class="cash-details-block">
-          <label class="form-label">
-            Pecahan yang dibawa (agar kembalian bisa disiapkan)
-            <span class="required-mark">*</span>
-          </label>
-          <div class="cash-radio-grid">
-            <label class="cash-radio-item" for="cashExact">
-              <input type="radio" name="cashOption" id="cashExact" value="Uang pas" checked>
-              <span class="cash-radio-box">Uang pas</span>
+        <!-- Pecahan Tunai (Informasional) -->
+        <div id="cashPecahanSection" class="field-group cash-detail-block">
+          <label class="field-label">Pecahan Uang yang Dibawa (Agar Kembalian Bisa Disiapkan)</label>
+          <div class="cash-chips-flex">
+            <label class="cash-chip-label" for="cashPas">
+              <input type="radio" name="cashOption" id="cashPas" value="Uang pas" checked>
+              <span class="cash-chip-btn">Uang pas</span>
             </label>
-            <label class="cash-radio-item" for="cash20k">
-              <input type="radio" name="cashOption" id="cash20k" value="Rp20.000">
-              <span class="cash-radio-box">Rp20.000</span>
+            <label class="cash-chip-label" for="cash20">
+              <input type="radio" name="cashOption" id="cash20" value="Rp20.000">
+              <span class="cash-chip-btn">Rp20.000</span>
             </label>
-            <label class="cash-radio-item" for="cash50k">
-              <input type="radio" name="cashOption" id="cash50k" value="Rp50.000">
-              <span class="cash-radio-box">Rp50.000</span>
+            <label class="cash-chip-label" for="cash50">
+              <input type="radio" name="cashOption" id="cash50" value="Rp50.000">
+              <span class="cash-chip-btn">Rp50.000</span>
             </label>
-            <label class="cash-radio-item" for="cash100k">
-              <input type="radio" name="cashOption" id="cash100k" value="Rp100.000">
-              <span class="cash-radio-box">Rp100.000</span>
+            <label class="cash-chip-label" for="cash100">
+              <input type="radio" name="cashOption" id="cash100" value="Rp100.000">
+              <span class="cash-chip-btn">Rp100.000</span>
             </label>
-            <label class="cash-radio-item" for="cashOther">
-              <input type="radio" name="cashOption" id="cashOther" value="Lainnya">
-              <span class="cash-radio-box">Lainnya</span>
+            <label class="cash-chip-label" for="cashManual">
+              <input type="radio" name="cashOption" id="cashManual" value="Lainnya">
+              <span class="cash-chip-btn">Lainnya</span>
             </label>
           </div>
 
-          <!-- Custom cash input (Visible only if Lainnya is selected) -->
-          <div id="customCashGroup" class="form-group is-hidden" style="margin-top: 10px;">
-            <div class="input-with-prefix">
-              <span class="input-prefix">Rp</span>
-              <input type="number" id="customCashInput" class="form-input cash-input" placeholder="Isi nominal pecahan uang yang dibawa" min="0" step="1000">
+          <!-- Input Manual Jika Pilih Lainnya -->
+          <div id="customCashContainer" class="custom-cash-input is-hidden">
+            <div class="input-container">
+              <span class="currency-prefix">Rp</span>
+              <input type="number" id="customCashAmount" class="text-input with-prefix" placeholder="Ketik nominal uang pecahan yang dibawa" min="0" step="1000">
             </div>
           </div>
         </div>
 
-        <!-- QRIS Info Block -->
-        <div id="qrisDetailsBlock" class="qris-details-block is-hidden">
-          <div class="qris-box-inner">
-            <svg class="icon icon-md text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="10"></circle>
-              <line x1="12" y1="16" x2="12" y2="12"></line>
-              <line x1="12" y1="8" x2="12.01" y2="8"></line>
-            </svg>
-            <p class="qris-desc">Kode QRIS tersedia di gerai atau dikirim lewat WhatsApp.</p>
-          </div>
-        </div>
-
-        <!-- Optional Notes -->
-        <div class="form-group">
-          <label for="orderNotes" class="form-label">Catatan Tambahan (opsional)</label>
-          <input type="text" id="orderNotes" class="form-input" placeholder="Contoh: Titip di pos satpam / varian rasa">
-        </div>
-      </div>
-    </section>
-
-    <!-- SECTION 3: PRATINJAU & KIRIM WHATSAPP (LAYAR 3) -->
-    <section id="whatsapp-section" class="section-block">
-      <div class="section-header">
-        <div>
-          <span class="section-eyebrow">Layar 3 — Konfirmasi Pesanan</span>
-          <h2 class="section-title">Kirim Pesanan ke WhatsApp</h2>
-        </div>
-        <p class="section-subtitle">Tinjau isi pesan sebelum dikirimkan ke pemilik.</p>
-      </div>
-
-      <div class="whatsapp-card">
-        <div class="preview-header">
-          <div class="preview-indicator">
-            <span class="preview-dot"></span>
-            <span class="preview-label">Format Pesan WhatsApp (#ORDER-BEBES)</span>
-          </div>
-        </div>
-
-        <!-- Message Preview Box -->
-        <pre class="message-preview-box" id="messagePreview">#ORDER-BEBES
-Nama: ...
-Layanan: Ambil di gerai
-Pesanan:
-(Belum ada menu dipilih)
-Total: Rp0
-Bayar: Tunai
-Pecahan dibawa: Uang pas
-Mohon konfirmasi stok & jam. Terima kasih.</pre>
-
-        <!-- CTA Button -->
-        <button type="button" id="btnSendWhatsapp" class="btn-whatsapp" disabled>
-          <svg class="icon icon-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+        <!-- QRIS Info Box -->
+        <div id="qrisInfoBanner" class="qris-info-banner is-hidden">
+          <svg class="icon icon-md text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
           </svg>
-          <span id="btnWhatsappText">Pesan Sekarang via WhatsApp</span>
-        </button>
+          <p class="qris-info-text">Kode QRIS resmi tersedia di gerai atau akan dikirimkan langsung melalui WhatsApp.</p>
+        </div>
 
-        <p class="disclaimer-subtext">
-          Prototype uji Minggu 11 · tanpa login, tanpa pembayaran online. Pesanan dikirim lewat WhatsApp dan baru sah setelah dikonfirmasi pemilik.
-        </p>
+        <!-- Catatan Tambahan -->
+        <div class="field-group">
+          <label for="orderNotes" class="field-label">Catatan Tambahan (Opsional)</label>
+          <input type="text" id="orderNotes" class="text-input" placeholder="Contoh: Titip di pos satpam / varian rasa">
+        </div>
+
+        <!-- Direct WhatsApp Action Button -->
+        <div class="action-submit-block">
+          <button type="button" id="btnDirectWhatsapp" class="btn-primary-wa" disabled>
+            <svg class="icon icon-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+            </svg>
+            <span id="btnDirectWhatsappLabel">Pilih Menu Terlebih Dahulu</span>
+          </button>
+          <p class="direct-wa-note">Pesanan akan langsung terhubung ke WhatsApp pengelola The Bebes untuk konfirmasi stok dan pengantaran.</p>
+        </div>
+
       </div>
     </section>
 
   </main>
 
-  <!-- Sticky Bottom Bar for Mobile -->
-  <aside class="sticky-mobile-bar" id="stickyMobileBar">
-    <div class="container sticky-container">
-      <div class="sticky-info">
-        <span class="sticky-qty" id="stickyQtyDisplay">0 Item</span>
-        <span class="sticky-total" id="stickyTotalDisplay">Rp 0</span>
+  <!-- Sticky Bottom Navigation Bar for Mobile -->
+  <aside class="mobile-sticky-bar" id="mobileStickyBar">
+    <div class="container sticky-flex">
+      <div class="sticky-cart-info">
+        <span class="sticky-count-text" id="stickyCountText">0 Menu Dipilih</span>
+        <span class="sticky-price-text" id="stickyPriceText">Rp0</span>
       </div>
-      <button type="button" class="btn-sticky" id="btnStickyCheckout">
-        <span>Lanjut ke Formulir</span>
+      <button type="button" class="btn-sticky-cta" id="btnStickyScroll">
+        <span>Lanjut Pesan</span>
         <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <line x1="5" y1="12" x2="19" y2="12"></line>
           <polyline points="12 5 19 12 12 19"></polyline>
@@ -360,16 +362,16 @@ Mohon konfirmasi stok & jam. Terima kasih.</pre>
     </div>
   </aside>
 
-  <!-- Site Footer -->
-  <footer class="site-footer">
-    <div class="container footer-content">
-      <div class="footer-col">
-        <p class="footer-title">Pizza &amp; Bolen Jumbo The Bebes</p>
-        <p class="footer-sub">Usaha Kuliner Ritel Homemade Maros (Ibu H)</p>
-        <p class="footer-contact">Jl. Poros Moncongloe, Kab. Maros</p>
+  <!-- Footer -->
+  <footer class="store-footer">
+    <div class="container footer-layout">
+      <div class="footer-brand">
+        <h3 class="footer-title">Pizza &amp; Bolen Jumbo The Bebes</h3>
+        <p class="footer-desc">Kuliner rumahan lezat, renyah, dan gurih di Moncongloe, Maros.</p>
+        <p class="footer-loc">Jl. Poros Moncongloe, Kab. Maros</p>
       </div>
-      <div class="footer-col footer-col-right">
-        <p class="academic-note">Prototipe Web Praktikum Kewirausahaan — Minggu 11</p>
+      <div class="footer-copy">
+        <p>&copy; 2026 The Bebes. Semua hak dilindungi.</p>
       </div>
     </div>
   </footer>
